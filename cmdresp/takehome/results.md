@@ -15,7 +15,7 @@ The `control` AXI-Lite bundle contains only the standard control at 0x00 and 32-
 
 ## Design
 
-CONFIG installs four taps and clears three history samples; RESET_HISTORY clears history; DATA retains history across commands. The dot product uses signed products and a 64-bit accumulator, floor division by 256, and saturation. The Python reference uses independently expressed integer arithmetic. To retain correct history in RTL after Run 6 failed, the DATA loop is unpipelined. This is a deliberate correctness/performance tradeoff: the original II and throughput targets remain unmet rather than being redefined. [Kernel](kernel.cpp), [reference](model.py), [failed pipeline log](evidence/run6_pipeline_cosim_fail.txt).
+The bounded outer command loop reads and dispatches headers; CONFIG uses a fixed four-iteration coefficient loop, and DATA uses a variable-length sample loop. The four taps are stored in a completely partitioned local coefficient array, and three local delay variables hold the sample history. CONFIG installs four taps and clears the history; RESET_HISTORY clears history; DATA retains history across commands. The dot product uses signed products and a 64-bit accumulator, floor division by 256, and saturation. The Python reference uses independently expressed integer arithmetic. To retain correct history in RTL after Run 6 failed, the DATA loop is unpipelined. This is a deliberate correctness/performance tradeoff: the original II and throughput targets remain unmet rather than being redefined. [Kernel](kernel.cpp), [reference](model.py), [failed pipeline log](evidence/run6_pipeline_cosim_fail.txt).
 
 ## Targets
 
@@ -92,7 +92,7 @@ Separately, the [directed RTL sentinel test](sentinel_tb.v) presents a stable se
 ## Open Items
 
 - Performance target failure is resolved as a documented result, not a passing claim: the current unpipelined design does not meet II <=2 or throughput >=0.5 samples/cycle. A faster correct architecture remains future work. [Synthesis](evidence/run8_csynth.rpt), [measurement](evidence/run8_timing_measurements.txt).
-- The 64-command protocol decision is closed in version 4. This documentation-only revision does not claim a new synthesis or RTL co-simulation run; the hardware evidence remains Run 8. [Revision history](prompt.md#revision-history), [Run 8](evidence/run8_vitis.txt).
+- The 64-command protocol decision is closed in version 4. Version 5 clarifies the results format. These documentation-only revisions do not claim a new synthesis or RTL co-simulation run; the hardware evidence remains Run 8. [Revision history](prompt.md#revision-history), [Run 8](evidence/run8_vitis.txt).
 
 ## Run History
 
