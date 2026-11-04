@@ -1,0 +1,35 @@
+MODEL PASS hand_split_reset_reconfigure: hand-checked; status=(0, 0, 0); output_beats=14
+MODEL PASS hand_floor_and_upper_bits: hand-checked; status=(0, 0, 0); output_beats=5
+MODEL PASS hand_full_accumulator_and_saturation: hand-checked; status=(0, 0, 0); output_beats=9
+MODEL PASS activation_state_reset: hand-checked; status=(0, 0, 0); output_beats=2
+MODEL PASS seeded_multicommand: cross-language fixture; status=(0, 0, 0); output_beats=514
+MODEL PASS timing_4096: hand-checked; status=(0, 0, 0); output_beats=4097
+MODEL PASS header_priority: hand-checked; status=(1, 1, 21); output_beats=0
+MODEL PASS header_priority_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS unknown_opcode: hand-checked; status=(1, 2, 22); output_beats=0
+MODEL PASS unknown_opcode_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS zero_data: hand-checked; status=(1, 3, 23); output_beats=0
+MODEL PASS zero_data_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS oversize_data: hand-checked; status=(1, 3, 24); output_beats=0
+MODEL PASS oversize_data_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS data_before_config: hand-checked; status=(1, 4, 25); output_beats=0
+MODEL PASS data_before_config_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS end_before_config: hand-checked; status=(1, 4, 26); output_beats=0
+MODEL PASS end_before_config_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS action_before_config: hand-checked; status=(1, 4, 27); output_beats=0
+MODEL PASS action_before_config_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS bad_action_count: hand-checked; status=(1, 3, 28); output_beats=0
+MODEL PASS bad_action_count_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS bad_end_count: hand-checked; status=(1, 3, 29); output_beats=0
+MODEL PASS bad_end_count_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS bad_config_count: hand-checked; status=(1, 3, 30); output_beats=0
+MODEL PASS bad_config_count_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS config_early: hand-checked; status=(1, 5, 31); output_beats=0
+MODEL PASS config_early_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS config_missing: hand-checked; status=(1, 6, 32); output_beats=0
+MODEL PASS config_missing_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS data_early: hand-checked; status=(1, 5, 35); output_beats=5
+MODEL PASS data_early_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS data_missing: hand-checked; status=(1, 6, 36); output_beats=2
+MODEL PASS data_missing_restart: hand-checked; status=(0, 0, 0); output_beats=3
+34 scenarios; vectors SHA256 9cc8dbf60aa2c0dd89fae5034181b8b5cab2bf00b8cca4fec36bf2f7901161f9
