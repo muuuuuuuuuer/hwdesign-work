@@ -90,12 +90,19 @@ def cases():
         response(0x50, timing), success,
     )
 
+    limit_prefix = [*config(1, [256, 0, 0, 0]), *[cmd(3, 2, 0)] * 63]
+    limit_responses = [cmd(0x83, 2, 0)] * 63
+    yield ("command_limit_allows_end", [*limit_prefix, end(3)], limit_responses, success)
+
     def recovery(name):
         return (name + "_restart",
                 [*config(0xa0, [128, 256, 0, 0]), *data(0xa1, [512, 0]), end(0xa2)],
                 response(0xa1, [256, 512]), success)
 
     extra = [
+        ("command_limit", [*limit_prefix, cmd(2, 42, 1)], limit_responses, (1, 7, 42)),
+        ("command_limit_header_priority", [*limit_prefix, cmd(0xee, 43, 0, False)],
+         limit_responses, (1, 1, 43)),
         ("config_early", [cmd(1, 31, 4), (0, False), (0, True)], [], (1, 5, 31)),
         ("config_missing", [cmd(1, 32, 4), *[(0, False)] * 4], [], (1, 6, 32)),
         ("data_early", [*cfg, *data(2, [256]), cmd(2, 35, 3), (0, False), (256, True)],

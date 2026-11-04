@@ -18,6 +18,9 @@ The AXI-Lite control bundle uses ap_start/ap_done and unsigned 32-bit outputs `h
 | 4 | A syntactically valid non-CONFIG arrives before CONFIG |
 | 5 | Payload TLAST occurs before the declared final word |
 | 6 | Declared final word has TLAST=0 |
+| 7 | A valid non-END header exceeds the per-activation command limit |
+
+A call accepts at most 64 non-END commands (including CONFIG and RESET_HISTORY). After those 64 commands, a valid END still completes successfully. Any other valid command header returns error 7 without consuming that command's payload or emitting its response. Header errors 1–4 retain their listed priority over error 7.
 
 A header error produces no response. A CONFIG payload error produces no response. For DATA, emit the response header before reading the payload. On early or missing TLAST, process the offending sample, mark its output word TLAST=1, then halt. The header still announces the requested count. No footer is sent.
 
@@ -56,7 +59,7 @@ Use independent hand calculations for these checks, all in raw units.
 - With coefficients [1, 0, 0, 0] and input [-1, 1, -257, 257], the expected output is [-1, 0, -2, 1]. With coefficients [-32768, -32768, -32768, -32768] and input [-32768, -32768, -32768, -32768, 32767, 32767, 32767, 32767], expect [32767, 32767, 32767, 32767, 32767, 256, -32768, -32768].
 - Cover every command, error code, both DATA length limits, upper-bit handling, and early and missing TLAST on CONFIG and DATA. Test competing header errors to establish priority. For each error, verify status and closure, then run an independent valid CONFIG/DATA/END activation on fresh streams and check the cleared status and output. Include a prior successful response in a DATA framing error test. Verify in C simulation that an extra queued word is left unread.
 - For every error scenario, queue a sentinel immediately after the offending beat in a directed RTL test. Present the sentinel at the input and hold its TVALID and payload stable until accepted or the host resets the stream path. From acceptance of the offending beat through activation completion, record the input handshakes and verify that no further beat is accepted. A sentinel handshake is a protocol failure even if the output and status agree with C simulation. Record the sentinel's presentation, any acceptance, completion, status, and fresh-stream restart for each error. If this stimulus or observation cannot be produced, mark the RTL read-ahead check unverified and name the limitation.
-- Compare the Python and kernel results on a seeded randomized multicommand activation plus the timing activation.
+- Check the 64-command boundary, error 7 and header-error priority at the boundary. Compare the Python and kernel results on a seeded randomized multicommand activation plus the timing activation.
 
 Write results.md with Interface, Design, Targets, Verification, Assumptions, Open Items and Run History sections. Include one row per scenario and per target, measured values and evidence paths, the actual port/register layout and all decisions made where the prompt was silent. Record any failure and each run's prompt version and scope.
 
@@ -66,3 +69,4 @@ Write results.md with Interface, Design, Targets, Verification, Assumptions, Ope
 | --- | --- | --- |
 | 1 | First draft, prepared with Codex | Define a small stateful streaming FIR and its verification contract for student review. |
 | 2 (proposed for student review) | Require an input-handshake trace with a queued sentinel for each RTL error case. Define the verdict and evidence required after a tool timeout. | [Run 4](results.md#run-history) repeated the C-simulation checks, then timed out in synthesis. The co-simulation harness omits queued sentinels, so it would leave read-ahead untested even if ordinary co-simulation passed. [Testbench](tb.cpp), [FIR log](evidence/ecs04_fir_vitis.txt), [exit status](evidence/ecs04_stage_status.txt). |
+| 3 (proposed for student review) | Bound each activation to 64 non-END commands; define error 7 and its priority. Retain the original performance targets and report their actual verdicts. | Run 6 found that the original unbounded command loop stalled synthesis, while a bounded diagnostic synthesized but pipelined RTL failed 18 scenarios. Run 7 passed ordinary RTL co-simulation with the DATA pipeline disabled but the input adapter accepted queued sentinel words. Run 8 disables input adapter registration and checks both effects. [Run history](results.md#run-history), [pipeline failure](evidence/run6_pipeline_cosim_fail.txt), [read-ahead failure](evidence/run7_rtl_sentinel_fail.txt), [final RTL test](evidence/run8_rtl_sentinel.txt). |

@@ -1,0 +1,1227 @@
+MODEL PASS hand_split_reset_reconfigure: hand-checked; status=(0, 0, 0); output_beats=14
+MODEL PASS hand_floor_and_upper_bits: hand-checked; status=(0, 0, 0); output_beats=5
+MODEL PASS hand_full_accumulator_and_saturation: hand-checked; status=(0, 0, 0); output_beats=9
+MODEL PASS activation_state_reset: hand-checked; status=(0, 0, 0); output_beats=2
+MODEL PASS seeded_multicommand: cross-language fixture; status=(0, 0, 0); output_beats=514
+MODEL PASS timing_4096: hand-checked; status=(0, 0, 0); output_beats=4097
+MODEL PASS header_priority: hand-checked; status=(1, 1, 21); output_beats=0
+MODEL PASS header_priority_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS unknown_opcode: hand-checked; status=(1, 2, 22); output_beats=0
+MODEL PASS unknown_opcode_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS zero_data: hand-checked; status=(1, 3, 23); output_beats=0
+MODEL PASS zero_data_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS oversize_data: hand-checked; status=(1, 3, 24); output_beats=0
+MODEL PASS oversize_data_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS data_before_config: hand-checked; status=(1, 4, 25); output_beats=0
+MODEL PASS data_before_config_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS end_before_config: hand-checked; status=(1, 4, 26); output_beats=0
+MODEL PASS end_before_config_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS action_before_config: hand-checked; status=(1, 4, 27); output_beats=0
+MODEL PASS action_before_config_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS bad_action_count: hand-checked; status=(1, 3, 28); output_beats=0
+MODEL PASS bad_action_count_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS bad_end_count: hand-checked; status=(1, 3, 29); output_beats=0
+MODEL PASS bad_end_count_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS bad_config_count: hand-checked; status=(1, 3, 30); output_beats=0
+MODEL PASS bad_config_count_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS config_early: hand-checked; status=(1, 5, 31); output_beats=0
+MODEL PASS config_early_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS config_missing: hand-checked; status=(1, 6, 32); output_beats=0
+MODEL PASS config_missing_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS data_early: hand-checked; status=(1, 5, 35); output_beats=5
+MODEL PASS data_early_restart: hand-checked; status=(0, 0, 0); output_beats=3
+MODEL PASS data_missing: hand-checked; status=(1, 6, 36); output_beats=2
+MODEL PASS data_missing_restart: hand-checked; status=(0, 0, 0); output_beats=3
+34 scenarios; vectors SHA256 9cc8dbf60aa2c0dd89fae5034181b8b5cab2bf00b8cca4fec36bf2f7901161f9
+
+****** vitis-run v2026.1 (64-bit)
+  **** SW Build 6497934 on 2026-06-16-10:22:25
+  **** Start of session at: Wed Nov  4 16:45:55 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
+
+  **** HLS Build v2026.1 6493734
+Sourcing Tcl script '<EDA-workdir>'
+INFO: [HLS 200-1510] Running: open_project -reset prj_lab5
+WARNING: [HLS 200-2182] The 'prj_lab5' project will not automatically appear within Vitis IDE workspaces and is meant only for TCL batch use.  Please use open_component instead of open_project/open_solution to generate Vitis IDE compatible component files and directory structure.
+Resolution: For help on HLS 200-2182 see docs.amd.com/access/sources/dita/topic?Doc_Version=2026.1%20English&url=ug1448-hls-guidance&resourceid=200-2182.html
+INFO: [HLS 200-10] Creating and opening solution '<EDA-workdir>'.
+INFO: [HLS 200-1510] Running: set_top fir4
+INFO: [HLS 200-1510] Running: add_files kernel.cpp
+INFO: [HLS 200-10] Adding design file 'kernel.cpp' to the project
+INFO: [HLS 200-1510] Running: add_files -tb tb.cpp
+INFO: [HLS 200-10] Adding test bench file 'tb.cpp' to the project
+INFO: [HLS 200-1510] Running: add_files -tb prj_vectors/vectors.txt
+INFO: [HLS 200-10] Adding test bench file 'prj_vectors/vectors.txt' to the project
+INFO: [HLS 200-1510] Running: add_files -tb prj_vectors/timing_vectors.txt
+INFO: [HLS 200-10] Adding test bench file 'prj_vectors/timing_vectors.txt' to the project
+INFO: [HLS 200-1510] Running: open_solution -reset solution1 -flow_target vivado
+INFO: [HLS 200-10] Creating and opening solution '<EDA-workdir>'.
+INFO: [HLS 200-10] Cleaning up the solution database.
+INFO: [HLS 200-1505] Using flow_target 'vivado'
+Resolution: For help on HLS 200-1505 see docs.amd.com/access/sources/dita/topic?Doc_Version=2026.1%20English&url=ug1448-hls-guidance&resourceid=200-1505.html
+WARNING: [HLS 200-2149] The 'flow_target' option is deprecated and will be removed in a future release. For 'vivado' value you may simply remove the option for equivalent behavior.
+WARNING: [HLS 200-484] The 'open_solution -flow_target' command is deprecated and will be removed in a future release.
+INFO: [HLS 200-1510] Running: set_part xc7z020clg400-1
+INFO: [HLS 200-1611] Setting target device to 'xc7z020-clg400-1'
+INFO: [HLS 200-1510] Running: create_clock -period 10 -name default
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
+INFO: [HLS 200-1510] Running: config_compile -pipeline_loops 0
+INFO: [HLS 200-1510] Running: csim_design -argv "<EDA-workdir>"
+INFO: [SIM 211-2] *************** CSIM start ***************
+INFO: [HLS 200-2191] C-Simulation will use clang-16 as the compiler
+INFO: [HLS 200-2036] Building debug C Simulation binaries
+   Compiling ../../../../tb.cpp in debug mode
+   Compiling ../../../../kernel.cpp in debug mode
+   Generating csim.exe
+KERNEL PASS hand_split_reset_reconfigure: status=(0,0,0); expected_output_beats=14; queued_input_checked=0
+KERNEL PASS hand_floor_and_upper_bits: status=(0,0,0); expected_output_beats=5; queued_input_checked=0
+KERNEL PASS hand_full_accumulator_and_saturation: status=(0,0,0); expected_output_beats=9; queued_input_checked=0
+KERNEL PASS activation_state_reset: status=(0,0,0); expected_output_beats=2; queued_input_checked=0
+KERNEL PASS seeded_multicommand: status=(0,0,0); expected_output_beats=514; queued_input_checked=0
+KERNEL PASS timing_4096: status=(0,0,0); expected_output_beats=4097; queued_input_checked=0
+KERNEL PASS header_priority: status=(1,1,21); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS header_priority_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS unknown_opcode: status=(1,2,22); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS unknown_opcode_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS zero_data: status=(1,3,23); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS zero_data_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS oversize_data: status=(1,3,24); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS oversize_data_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS data_before_config: status=(1,4,25); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS data_before_config_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS end_before_config: status=(1,4,26); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS end_before_config_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS action_before_config: status=(1,4,27); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS action_before_config_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS bad_action_count: status=(1,3,28); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS bad_action_count_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS bad_end_count: status=(1,3,29); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS bad_end_count_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS bad_config_count: status=(1,3,30); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS bad_config_count_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS config_early: status=(1,5,31); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS config_early_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS config_missing: status=(1,6,32); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS config_missing_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS data_early: status=(1,5,35); expected_output_beats=5; queued_input_checked=1
+KERNEL PASS data_early_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS data_missing: status=(1,6,36); expected_output_beats=2; queued_input_checked=1
+KERNEL PASS data_missing_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+34/34 scenarios passed
+INFO [HLS SIM]: The maximum depth reached by any hls::stream() instance in the design is 4103
+INFO: [SIM 211-1] CSim done with 0 errors.
+INFO: [SIM 211-3] *************** CSIM finish ***************
+INFO: [HLS 200-2161] Finished Command csim_design Elapsed time: 00:00:04; Allocated memory: 1.000 MB.
+INFO: [HLS 200-1510] Running: csynth_design
+INFO: [HLS 200-111] Finished File checks and directory preparation: CPU user time: 0.97 seconds. CPU system time: 0.13 seconds. Elapsed time: 1.16 seconds; current allocated memory: 287.469 MB.
+INFO: [HLS 200-2191] C-Synthesis will use clang-16 as the compiler
+INFO: [HLS 200-10] Analyzing design file 'kernel.cpp' ...
+INFO: [HLS 200-111] Finished Source Code Analysis and Preprocessing: CPU user time: 6.16 seconds. CPU system time: 0.83 seconds. Elapsed time: 7.31 seconds; current allocated memory: 290.141 MB.
+INFO: [HLS 200-1995] There were 1,457 instructions in the design after the 'Compile/Link' phase of compilation. See the Design Size Report for more details (<EDA-workdir>
+INFO: [HLS 214-131] Inlining function '(anonymous namespace)::send(hls::stream<hls::axis<ap_uint<32>, 0ul, 0ul, 0ul, (unsigned char)56, false>, 0>&, unsigned int, bool)' into 'fir4(hls::stream<hls::axis<ap_uint<32>, 0ul, 0ul, 0ul, (unsigned char)56, false>, 0>&, hls::stream<hls::axis<ap_uint<32>, 0ul, 0ul, 0ul, (unsigned char)56, false>, 0>&, unsigned int&, unsigned int&, unsigned int&)' (kernel.cpp:141:17)
+INFO: [HLS 214-131] Inlining function '(anonymous namespace)::quantize(long)' into 'fir4(hls::stream<hls::axis<ap_uint<32>, 0ul, 0ul, 0ul, (unsigned char)56, false>, 0>&, hls::stream<hls::axis<ap_uint<32>, 0ul, 0ul, 0ul, (unsigned char)56, false>, 0>&, unsigned int&, unsigned int&, unsigned int&)' (kernel.cpp:137:41)
+INFO: [HLS 214-131] Inlining function '(anonymous namespace)::signed_sample(unsigned int)' into 'fir4(hls::stream<hls::axis<ap_uint<32>, 0ul, 0ul, 0ul, (unsigned char)56, false>, 0>&, hls::stream<hls::axis<ap_uint<32>, 0ul, 0ul, 0ul, (unsigned char)56, false>, 0>&, unsigned int&, unsigned int&, unsigned int&)' (kernel.cpp:131:40)
+INFO: [HLS 214-131] Inlining function '(anonymous namespace)::framing(bool, bool)' into 'fir4(hls::stream<hls::axis<ap_uint<32>, 0ul, 0ul, 0ul, (unsigned char)56, false>, 0>&, hls::stream<hls::axis<ap_uint<32>, 0ul, 0ul, 0ul, (unsigned char)56, false>, 0>&, unsigned int&, unsigned int&, unsigned int&)' (kernel.cpp:130:24)
+INFO: [HLS 200-1995] There were 623 instructions in the design after the 'Unroll/Inline' phase of compilation. See the Design Size Report for more details (<EDA-workdir>
+INFO: [HLS 200-1995] There were 445 instructions in the design after the 'Unroll/Inline (step 2)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>
+INFO: [HLS 200-1995] There were 433 instructions in the design after the 'Unroll/Inline (step 3)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>
+INFO: [HLS 200-1995] There were 322 instructions in the design after the 'Unroll/Inline (step 4)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>
+INFO: [HLS 214-248] Applying array_partition to 'coefficients': Complete partitioning on dimension 1. (kernel.cpp:71:13)
+INFO: [HLS 200-1995] There were 337 instructions in the design after the 'Array/Struct' phase of compilation. See the Design Size Report for more details (<EDA-workdir>
+INFO: [HLS 200-1995] There were 345 instructions in the design after the 'Array/Struct (step 2)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>
+INFO: [HLS 200-1995] There were 345 instructions in the design after the 'Array/Struct (step 3)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>
+INFO: [HLS 200-1995] There were 344 instructions in the design after the 'Array/Struct (step 4)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>
+INFO: [HLS 200-1995] There were 534 instructions in the design after the 'Array/Struct (step 5)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>
+INFO: [HLS 200-1995] There were 528 instructions in the design after the 'Performance' phase of compilation. See the Design Size Report for more details (<EDA-workdir>
+INFO: [HLS 200-1995] There were 453 instructions in the design after the 'Performance (step 2)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>
+INFO: [HLS 200-1995] There were 364 instructions in the design after the 'Performance (step 3)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>
+INFO: [HLS 200-1995] There were 364 instructions in the design after the 'Performance (step 4)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>
+INFO: [HLS 200-1995] There were 318 instructions in the design after the 'HW Transforms' phase of compilation. See the Design Size Report for more details (<EDA-workdir>
+INFO: [HLS 200-1995] There were 249 instructions in the design after the 'HW Transforms (step 2)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>
+INFO: [HLS 200-111] Finished Compiling Optimization and Transform: CPU user time: 3.1 seconds. CPU system time: 0.55 seconds. Elapsed time: 8.14 seconds; current allocated memory: 300.152 MB.
+INFO: [HLS 200-111] Finished Checking Pragmas: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0 seconds; current allocated memory: 300.152 MB.
+INFO: [HLS 200-10] Starting code transformations ...
+INFO: [HLS 200-111] Finished Standard Transforms: CPU user time: 0.02 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.03 seconds; current allocated memory: 301.000 MB.
+INFO: [HLS 200-10] Checking synthesizability ...
+INFO: [HLS 200-111] Finished Checking Synthesizability: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 301.215 MB.
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock in function 'fir4'... converting 3 basic blocks.
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock from (kernel.cpp:71:13) in function 'fir4'... converting 6 basic blocks.
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock from (kernel.cpp:71:13) to (kernel.cpp:83:13) in function 'fir4'... converting 4 basic blocks.
+INFO: [XFORM 203-11] Balancing expressions in function 'fir4' (kernel.cpp:22:5)...7 expression(s) balanced.
+INFO: [HLS 200-111] Finished Loop, function and other optimizations: CPU user time: 0.08 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.09 seconds; current allocated memory: 323.688 MB.
+INFO: [HLS 200-111] Finished Architecture Synthesis: CPU user time: 0.09 seconds. CPU system time: 0 seconds. Elapsed time: 0.1 seconds; current allocated memory: 325.281 MB.
+INFO: [HLS 200-2255] Checking Wire Delay Status: Wire Delay Mode is ON
+INFO: [HLS 200-10] Starting hardware synthesis ...
+INFO: [HLS 200-10] Synthesizing 'fir4' ...
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'fir4_Pipeline_data_samples'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln48_1) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln48) to 3 in order to utilize available DSP registers.
+INFO: [SCHED 204-61] Pipelining loop 'data_samples'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 2, Final II = 2, Depth = 6, loop 'data_samples'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.06 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.09 seconds; current allocated memory: 325.281 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.03 seconds. CPU system time: 0 seconds. Elapsed time: 0.03 seconds; current allocated memory: 325.281 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'fir4'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.09 seconds. CPU system time: 0 seconds. Elapsed time: 0.1 seconds; current allocated memory: 325.977 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.03 seconds. CPU system time: 0 seconds. Elapsed time: 0.04 seconds; current allocated memory: 325.977 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'fir4_Pipeline_data_samples'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'fir4_Pipeline_data_samples' pipeline 'data_samples' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_16s_16s_32s_33_4_1': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_16s_16s_33s_33_4_1': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mul_16s_16s_32_1_1': 2 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'fir4_Pipeline_data_samples'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.05 seconds. CPU system time: 0 seconds. Elapsed time: 0.08 seconds; current allocated memory: 325.977 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'fir4'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+WARNING: [RTGEN 206-101] Design contains AXI ports. Reset is fixed to synchronous and active low.
+INFO: [RTGEN 206-500] Setting interface mode on port 'fir4/in_stream_V_data_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 'fir4/in_stream_V_keep_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 'fir4/in_stream_V_strb_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 'fir4/in_stream_V_last_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 'fir4/out_stream_V_data_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 'fir4/out_stream_V_keep_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 'fir4/out_stream_V_strb_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 'fir4/out_stream_V_last_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 'fir4/halted' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'fir4/error' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'fir4/error_tx_id' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on function 'fir4' to 's_axilite & ap_ctrl_hs'.
+INFO: [RTGEN 206-100] Bundling port 'halted', 'error', 'error_tx_id' and 'return' to AXI-Lite port control.
+INFO: [RTGEN 206-100] Finished creating RTL model for 'fir4'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.13 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.18 seconds; current allocated memory: 327.703 MB.
+INFO: [HLS 200-111] Finished Generating all RTL models: CPU user time: 0.43 seconds. CPU system time: 0.04 seconds. Elapsed time: 0.64 seconds; current allocated memory: 335.242 MB.
+INFO: [HLS 200-2225] Wrote inferred directives to file <EDA-workdir>
+INFO: [HLS 200-111] Finished Updating report files: CPU user time: 0.86 seconds. CPU system time: 0.11 seconds. Elapsed time: 1.06 seconds; current allocated memory: 338.789 MB.
+INFO: [VHDL 208-304] Generating VHDL RTL for fir4.
+INFO: [VLOG 209-307] Generating Verilog RTL for fir4.
+INFO: [HLS 200-790] **** Loop Constraint Status: All loop constraints were satisfied.
+INFO: [HLS 200-789] **** Estimated Fmax: 137.20 MHz
+INFO: [HLS 200-2161] Finished Command csynth_design Elapsed time: 00:00:19; Allocated memory: 51.320 MB.
+INFO: [HLS 200-1510] Running: cosim_design -rtl verilog -tool xsim -argv "<EDA-workdir>" --rtl
+INFO: [COSIM 212-47] Using XSIM for RTL simulation.
+INFO: [COSIM 212-14] Instrumenting C test bench ...
+   Build using "/eda/xilinx/2026.1/Vitis/lnx64/tools/clang-16/bin/clang++"
+   Compiling apatb_fir4.cpp
+   Compiling apatb_fir4_util.cpp
+   Compiling kernel.cpp_pre.cpp
+   Compiling tb.cpp_pre.cpp
+   Compiling apatb_fir4_ir.ll
+   Generating cosim.tv.exe
+INFO: [COSIM 212-302] Starting C TB testing ...
+KERNEL PASS hand_split_reset_reconfigure: status=(0,0,0); expected_output_beats=14; queued_input_checked=0
+KERNEL PASS hand_floor_and_upper_bits: status=(0,0,0); expected_output_beats=5; queued_input_checked=0
+KERNEL PASS hand_full_accumulator_and_saturation: status=(0,0,0); expected_output_beats=9; queued_input_checked=0
+KERNEL PASS activation_state_reset: status=(0,0,0); expected_output_beats=2; queued_input_checked=0
+KERNEL PASS seeded_multicommand: status=(0,0,0); expected_output_beats=514; queued_input_checked=0
+KERNEL PASS timing_4096: status=(0,0,0); expected_output_beats=4097; queued_input_checked=0
+KERNEL PASS header_priority: status=(1,1,21); expected_output_beats=0; queued_input_checked=0
+KERNEL PASS header_priority_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS unknown_opcode: status=(1,2,22); expected_output_beats=0; queued_input_checked=0
+KERNEL PASS unknown_opcode_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS zero_data: status=(1,3,23); expected_output_beats=0; queued_input_checked=0
+KERNEL PASS zero_data_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS oversize_data: status=(1,3,24); expected_output_beats=0; queued_input_checked=0
+KERNEL PASS oversize_data_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS data_before_config: status=(1,4,25); expected_output_beats=0; queued_input_checked=0
+KERNEL PASS data_before_config_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS end_before_config: status=(1,4,26); expected_output_beats=0; queued_input_checked=0
+KERNEL PASS end_before_config_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS action_before_config: status=(1,4,27); expected_output_beats=0; queued_input_checked=0
+KERNEL PASS action_before_config_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS bad_action_count: status=(1,3,28); expected_output_beats=0; queued_input_checked=0
+KERNEL PASS bad_action_count_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS bad_end_count: status=(1,3,29); expected_output_beats=0; queued_input_checked=0
+KERNEL PASS bad_end_count_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS bad_config_count: status=(1,3,30); expected_output_beats=0; queued_input_checked=0
+KERNEL PASS bad_config_count_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS config_early: status=(1,5,31); expected_output_beats=0; queued_input_checked=0
+KERNEL PASS config_early_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS config_missing: status=(1,6,32); expected_output_beats=0; queued_input_checked=0
+KERNEL PASS config_missing_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS data_early: status=(1,5,35); expected_output_beats=5; queued_input_checked=0
+KERNEL PASS data_early_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS data_missing: status=(1,6,36); expected_output_beats=2; queued_input_checked=0
+KERNEL PASS data_missing_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+34/34 scenarios passed
+INFO [HLS SIM]: The maximum depth reached by any hls::stream() instance in the design is 4103
+INFO: [COSIM 212-333] Generating C post check test bench ...
+INFO: [COSIM 212-12] Generating RTL test bench ...
+find not read role field
+find not read role field
+find not read role field
+INFO: [COSIM 212-1] *** C/RTL co-simulation file generation completed. ***
+INFO: [COSIM 212-323] Starting verilog simulation.
+INFO: [COSIM 212-15] Starting XSIM ...
+Vivado Simulator v2026.1
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
+Running: /eda/xilinx/2026.1/Vivado/bin/unwrapped/lnx64.o/xelab xil_defaultlib.apatb_fir4_top xil_defaultlib.glbl -Oenable_linking_all_libraries -prj fir4.prj -L smartconnect_v1_0 -L axi_protocol_checker_v1_1_12 -L axi_protocol_checker_v1_1_13 -L axis_protocol_checker_v1_1_11 -L axis_protocol_checker_v1_1_12 -L xil_defaultlib -L unisims_ver -L xpm -L floating_point_v7_1_22 -L floating_point_v7_0_27 --lib ieee_proposed=./ieee_proposed -L uvm -relax -i ./svr -i ./svtb -i ./file_agent -i ./fir4_subsystem -s fir4
+Multi-threading is on. Using 62 slave threads.
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module glbl
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module fir4_flow_control_loop_pipe_sequential_init
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module fir4_control_s_axi
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module fir4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module fir4_fir4_Pipeline_data_samples
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module fir4_mac_muladd_16s_16s_33s_33_4_1_DSP48_0
+INFO: [VRFC 10-311] analyzing module fir4_mac_muladd_16s_16s_33s_33_4_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module AESL_deadlock_idx1_monitor
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module fir4_mac_muladd_16s_16s_32s_33_4_1_DSP48_0
+INFO: [VRFC 10-311] analyzing module fir4_mac_muladd_16s_16s_32s_33_4_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module AESL_deadlock_idx0_monitor
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module apatb_fir4_top
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module AESL_deadlock_kernel_monitor_top
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module fir4_mul_16s_16s_32_1_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module fir4_regslice_both
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module dataflow_monitor
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "<EDA-workdir>" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sv_module_top
+Starting static elaboration
+Pass Through NonSizing Optimizer
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package xil_defaultlib.$unit_sv_module_top_sv
+Compiling package uvm.uvm_pkg
+Compiling package std.std
+Compiling package xil_defaultlib.svr_pkg
+Compiling package xil_defaultlib.file_agent_pkg
+Compiling package xil_defaultlib.axi_pkg
+Compiling package xil_defaultlib.fir4_subsystem_pkg
+Compiling package xil_defaultlib.$unit_dataflow_monitor_sv
+Compiling module xil_defaultlib.fir4_mul_16s_16s_32_1_1(NUM_STAG...
+Compiling module xil_defaultlib.fir4_mac_muladd_16s_16s_32s_33_4...
+Compiling module xil_defaultlib.fir4_mac_muladd_16s_16s_32s_33_4...
+Compiling module xil_defaultlib.fir4_mac_muladd_16s_16s_33s_33_4...
+Compiling module xil_defaultlib.fir4_mac_muladd_16s_16s_33s_33_4...
+Compiling module xil_defaultlib.fir4_flow_control_loop_pipe_sequ...
+Compiling module xil_defaultlib.fir4_fir4_Pipeline_data_samples
+Compiling module xil_defaultlib.fir4_control_s_axi
+Compiling module xil_defaultlib.fir4_regslice_both(DataWidth=32)
+Compiling module xil_defaultlib.fir4_regslice_both(DataWidth=4)
+Compiling module xil_defaultlib.fir4_regslice_both(DataWidth=1)
+Compiling module xil_defaultlib.fir4
+Compiling module xil_defaultlib.misc_interface_default
+Compiling module xil_defaultlib.svr_if(DATA_WIDTH=41)
+Compiling module xil_defaultlib.axi_if(ADDR_WIDTH=6,STRB_WIDTH=4...
+Compiling module xil_defaultlib.sv_module_top
+Compiling module xil_defaultlib.AESL_deadlock_idx1_monitor
+Compiling module xil_defaultlib.AESL_deadlock_idx0_monitor
+Compiling module xil_defaultlib.AESL_deadlock_kernel_monitor_top...
+Compiling module xil_defaultlib.nodf_module_intf_default
+Compiling module xil_defaultlib.seq_loop_intf(FSM_WIDTH=11)
+Compiling module xil_defaultlib.upc_loop_intf_default
+Compiling module xil_defaultlib.dataflow_monitor_1
+Compiling module xil_defaultlib.apatb_fir4_top
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot fir4
+
+****** xsim v2026.1 (64-bit)
+  **** SW Build 6511674 on Tue Jun 16 11:01:26 MDT 2026
+  **** IP Build 6504888 on Tue Jun 09 09:05:25 MDT 2026
+  **** SharedData Build 6501428 on Mon Jun 08 17:34:18 MDT 2026
+  **** Start of session at: Wed Nov  4 16:47:00 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source xsim.dir/fir4/xsim_script.tcl
+# xsim {fir4} -testplusarg UVM_VERBOSITY=UVM_NONE -testplusarg UVM_TESTNAME=fir4_test_lib -testplusarg UVM_TIMEOUT=20000000000000 -autoloadwcfg -tclbatch {fir4.tcl}
+Time resolution is 1 ps
+source fir4.tcl
+## run all
+UVM_INFO /eda/xilinx/2026.1/Vivado/data/system_verilog/uvm_1.2/xlnx_uvm_package.sv(18601) @ 0: reporter [UVM/RELNOTES]
+----------------------------------------------------------------
+UVM-1.2
+(C) 2007-2014 Mentor Graphics Corporation
+(C) 2007-2014 Cadence Design Systems, Inc.
+(C) 2006-2014 Synopsys, Inc.
+(C) 2011-2013 Cypress Semiconductor Corp.
+(C) 2013-2014 NVIDIA Corporation
+----------------------------------------------------------------
+
+  ***********       IMPORTANT RELEASE NOTES         ************
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_NO_DEPRECATED undefined.
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_OBJECT_DO_NOT_NEED_CONSTRUCTOR undefined.
+
+      (Specify +UVM_NO_RELNOTES to turn off this notice)
+
+UVM_INFO /eda/xilinx/2026.1/Vivado/data/system_verilog/uvm_1.2/xlnx_uvm_package.sv(18648) @ 0: reporter [NO_DPI_TSTNAME] UVM_NO_DPI defined--getting UVM_TESTNAME directly, without DPI
+UVM_INFO /eda/xilinx/2026.1/Vivado/data/system_verilog/uvm_1.2/xlnx_uvm_package.sv(18752) @ 0: reporter [UVMTOP] UVM testbench topology:
+--------------------------------------------------------------------------------------------------------------------
+Name                                                    Type                                   Size  Value
+--------------------------------------------------------------------------------------------------------------------
+uvm_test_top                                            fir4_test_lib                          -     @370
+  top_env                                               fir4_env                               -     @381
+    axi_lite_control                                    uvm_env                                -     @428
+      item_rtr_port                                     uvm_analysis_port                      -     @447
+      item_wtr_port                                     uvm_analysis_port                      -     @437
+      master                                            uvm_agent                              -     @840
+        ardrv                                           uvm_driver #(REQ,RSP)                  -     @1515
+          item_read_imp                                 uvm_analysis_port                      -     @1544
+          rsp_port                                      uvm_analysis_port                      -     @1534
+          seq_item_port                                 uvm_seq_item_pull_port                 -     @1524
+          m_num_sent                                    integral                               32    'h0
+        arsqr                                           axi_sequencer                          -     @1554
+          rsp_export                                    uvm_analysis_export                    -     @1563
+          seq_item_export                               uvm_seq_item_pull_imp                  -     @1681
+          arbitration_queue                             array                                  0     -
+          lock_queue                                    array                                  0     -
+          num_last_reqs                                 integral                               32    'd1
+          num_last_rsps                                 integral                               32    'd1
+        awdrv                                           uvm_driver #(REQ,RSP)                  -     @987
+          item_read_imp                                 uvm_analysis_port                      -     @1016
+          rsp_port                                      uvm_analysis_port                      -     @1006
+          seq_item_port                                 uvm_seq_item_pull_port                 -     @996
+          m_num_sent                                    integral                               32    'h0
+        awsqr                                           axi_sequencer                          -     @1026
+          rsp_export                                    uvm_analysis_export                    -     @1035
+          seq_item_export                               uvm_seq_item_pull_imp                  -     @1153
+          arbitration_queue                             array                                  0     -
+          lock_queue                                    array                                  0     -
+          num_last_reqs                                 integral                               32    'd1
+          num_last_rsps                                 integral                               32    'd1
+        bdrv                                            uvm_driver #(REQ,RSP)                  -     @1339
+          item_read_imp                                 uvm_analysis_port                      -     @1368
+          rsp_port                                      uvm_analysis_port                      -     @1358
+          seq_item_port                                 uvm_seq_item_pull_port                 -     @1348
+          m_num_sent                                    integral                               32    'h0
+        bsqr                                            axi_sequencer                          -     @1378
+          rsp_export                                    uvm_analysis_export                    -     @1387
+          seq_item_export                               uvm_seq_item_pull_imp                  -     @1505
+          arbitration_queue                             array                                  0     -
+          lock_queue                                    array                                  0     -
+          num_last_reqs                                 integral                               32    'd1
+          num_last_rsps                                 integral                               32    'd1
+        rdrv                                            uvm_driver #(REQ,RSP)                  -     @1691
+          item_read_imp                                 uvm_analysis_port                      -     @1720
+          rsp_port                                      uvm_analysis_port                      -     @1710
+          seq_item_port                                 uvm_seq_item_pull_port                 -     @1700
+          m_num_sent                                    integral                               32    'h0
+        rsqr                                            axi_sequencer                          -     @1730
+          rsp_export                                    uvm_analysis_export                    -     @1739
+          seq_item_export                               uvm_seq_item_pull_imp                  -     @1857
+          arbitration_queue                             array                                  0     -
+          lock_queue                                    array                                  0     -
+          num_last_reqs                                 integral                               32    'd1
+          num_last_rsps                                 integral                               32    'd1
+        wdrv                                            uvm_driver #(REQ,RSP)                  -     @1163
+          item_read_imp                                 uvm_analysis_port                      -     @1192
+          rsp_port                                      uvm_analysis_port                      -     @1182
+          seq_item_port                                 uvm_seq_item_pull_port                 -     @1172
+          m_num_sent                                    integral                               32    'h0
+        wsqr                                            axi_sequencer                          -     @1202
+          rsp_export                                    uvm_analysis_export                    -     @1211
+          seq_item_export                               uvm_seq_item_pull_imp                  -     @1329
+          arbitration_queue                             array                                  0     -
+          lock_queue                                    array                                  0     -
+          num_last_reqs                                 integral                               32    'd1
+          num_last_rsps                                 integral                               32    'd1
+      monitor                                           uvm_monitor                            -     @662
+        item_ar2r_port                                  uvm_analysis_port                      -     @731
+        item_ar_port                                    uvm_analysis_port                      -     @701
+        item_aw2b_port                                  uvm_analysis_port                      -     @721
+        item_aw_port                                    uvm_analysis_port                      -     @671
+        item_b_port                                     uvm_analysis_port                      -     @691
+        item_r_port                                     uvm_analysis_port                      -     @711
+        item_w_port                                     uvm_analysis_port                      -     @681
+        checks_enable                                   integral                               1     'h1
+        coverage_enable                                 integral                               1     'h1
+      state                                             axi_state                              -     @741
+        ar2r_imp                                        uvm_analysis_imp_ar2r                  -     @810
+        ar_imp                                          uvm_analysis_imp_ar                    -     @780
+        aw2b_imp                                        uvm_analysis_imp_aw2b                  -     @800
+        aw_imp                                          uvm_analysis_imp_aw                    -     @750
+        b_imp                                           uvm_analysis_imp_b                     -     @770
+        item_rtr_port                                   uvm_analysis_port                      -     @830
+        item_wtr_port                                   uvm_analysis_port                      -     @820
+        r_imp                                           uvm_analysis_imp_r                     -     @790
+        w_imp                                           uvm_analysis_imp_w                     -     @760
+        avg_rate                                        integral                               32    'h0
+        exp_rate                                        integral                               32    'h0
+        win_size                                        integral                               32    'h0
+        bqnum_for_slaseq                                integral                               32    'h0
+        rq_from_model_num                               integral                               32    'h0
+      vsqr                                              axi_virtual_sequencer                  -     @849
+        rsp_export                                      uvm_analysis_export                    -     @858
+        seq_item_export                                 uvm_seq_item_pull_imp                  -     @976
+        arbitration_queue                               array                                  0     -
+        lock_queue                                      array                                  0     -
+        num_last_reqs                                   integral                               32    'd1
+        num_last_rsps                                   integral                               32    'd1
+      cfg                                               axi_cfg                                -     @400
+        has_checker                                     integral                               1     'h1
+        has_coverage                                    integral                               1     'h1
+        id_num                                          integral                               32    'h1
+        reset_level                                     reset_level_enum                       32    RESET_LEVEL_LOW
+        drv_type                                        drv_type_enum                          32    MASTER
+        write_latency_mode                              latency_mode_enum                      32    CHANNEL_FIRST
+        read_latency_mode                               latency_mode_enum                      32    CHANNEL_FIRST
+        clatency                                        axi_latency                            -     @424
+          wr_latency                                    integral                               32    'h0
+          rd_latency                                    integral                               32    'h0
+    env_master_svr_in_stream                            uvm_env                                -     @401
+      m_agt                                             uvm_agent                              -     @1935
+        drv                                             uvm_driver #(REQ,RSP)                  -     @2083
+          rsp_port                                      uvm_analysis_port                      -     @2102
+          seq_item_port                                 uvm_seq_item_pull_port                 -     @2092
+        mon                                             uvm_monitor                            -     @2112
+          item_collect_port                             uvm_analysis_port                      -     @2123
+        sqr                                             uvm_sequencer                          -     @1946
+          rsp_export                                    uvm_analysis_export                    -     @1955
+          seq_item_export                               uvm_seq_item_pull_imp                  -     @2073
+          arbitration_queue                             array                                  0     -
+          lock_queue                                    array                                  0     -
+          num_last_reqs                                 integral                               32    'd1
+          num_last_rsps                                 integral                               32    'd1
+    env_slave_svr_out_stream                            uvm_env                                -     @414
+      s_agt                                             uvm_agent                              -     @2141
+        drv                                             uvm_driver #(REQ,RSP)                  -     @2289
+          rsp_port                                      uvm_analysis_port                      -     @2308
+          seq_item_port                                 uvm_seq_item_pull_port                 -     @2298
+        mon                                             uvm_monitor                            -     @2318
+          item_collect_port                             uvm_analysis_port                      -     @2329
+        sqr                                             uvm_sequencer                          -     @2152
+          rsp_export                                    uvm_analysis_export                    -     @2161
+          seq_item_export                               uvm_seq_item_pull_imp                  -     @2279
+          arbitration_queue                             array                                  0     -
+          lock_queue                                    array                                  0     -
+          num_last_reqs                                 integral                               32    'd1
+          num_last_rsps                                 integral                               32    'd1
+    fir4_virtual_sqr                                    fir4_virtual_sequencer                 -     @519
+      rsp_export                                        uvm_analysis_export                    -     @528
+      seq_item_export                                   uvm_seq_item_pull_imp                  -     @646
+      arbitration_queue                                 array                                  0     -
+      lock_queue                                        array                                  0     -
+      num_last_reqs                                     integral                               32    'd1
+      num_last_rsps                                     integral                               32    'd1
+    refm                                                fir4_reference_model                   -     @457
+      trans_num_idx                                     integral                               32    'h0
+    subsys_mon                                          fir4_subsystem_monitor                 -     @470
+      control_rtr_imp                                   uvm_analysis_imp_axi_rtr_control       -     @509
+      control_wtr_imp                                   uvm_analysis_imp_axi_wtr_control       -     @499
+      scbd                                              fir4_scoreboard                        -     @2356
+        refm                                            fir4_reference_model                   -     @457
+          trans_num_idx                                 integral                               32    'h0
+        file_rd_TVOUT_transaction_size                  <unknown>                              -     @2366
+          TV_FILE                                       string                                 0     ""
+          fp                                            integral                               32    'hxxxxxxxx
+          TV_FILE_num                                   integral                               32    'h0
+          HEX_read                                      integral                               32    'h0
+          DEC_read                                      integral                               32    'h0
+          is_binary                                     integral                               32    'h0
+          TV_FILE_COMPARE                               string                                 0     ""
+          fp_compare                                    integral                               32    'hxxxxxxxx
+        TVOUT_transaction_size_queue                    da(integral)                           0     -
+        file_wr_port_out_stream_out_stream_TDATA        <unknown>                              -     @2367
+          TV_FILE                                       string                                 0     ""
+          fp                                            integral                               32    'hxxxxxxxx
+          file_open                                     integral                               32    'h0
+          write_file_done                               integral                               32    'h0
+          write_section_done                            integral                               32    'h0
+          TRANSACTION_NUM                               integral                               32    'h0
+          transaction_num_idx                           integral                               32    'h0
+          TRANSACTION_DEPTH                             integral                               32    'h0
+          TRANSACTION_DEPTH_queue                       da(integral)                           0     -
+          TRANSACTION_DEPTH_queue_for_depth_check       da(integral)                           0     -
+          transaction_depth_idx                         integral                               32    'h0
+          ap_done_num_idx                               integral                               32    'h0
+          is_binary                                     integral                               32    'h0
+        write_file_done_out_stream_out_stream_TDATA     integral                               32    'h0
+        write_section_done_out_stream_out_stream_TDATA  integral                               32    'h0
+        file_wr_port_out_stream_out_stream_TKEEP        <unknown>                              -     @2368
+          TV_FILE                                       string                                 0     ""
+          fp                                            integral                               32    'hxxxxxxxx
+          file_open                                     integral                               32    'h0
+          write_file_done                               integral                               32    'h0
+          write_section_done                            integral                               32    'h0
+          TRANSACTION_NUM                               integral                               32    'h0
+          transaction_num_idx                           integral                               32    'h0
+          TRANSACTION_DEPTH                             integral                               32    'h0
+          TRANSACTION_DEPTH_queue                       da(integral)                           0     -
+          TRANSACTION_DEPTH_queue_for_depth_check       da(integral)                           0     -
+          transaction_depth_idx                         integral                               32    'h0
+          ap_done_num_idx                               integral                               32    'h0
+          is_binary                                     integral                               32    'h0
+        write_file_done_out_stream_out_stream_TKEEP     integral                               32    'h0
+        write_section_done_out_stream_out_stream_TKEEP  integral                               32    'h0
+        file_wr_port_out_stream_out_stream_TSTRB        <unknown>                              -     @2369
+          TV_FILE                                       string                                 0     ""
+          fp                                            integral                               32    'hxxxxxxxx
+          file_open                                     integral                               32    'h0
+          write_file_done                               integral                               32    'h0
+          write_section_done                            integral                               32    'h0
+          TRANSACTION_NUM                               integral                               32    'h0
+          transaction_num_idx                           integral                               32    'h0
+          TRANSACTION_DEPTH                             integral                               32    'h0
+          TRANSACTION_DEPTH_queue                       da(integral)                           0     -
+          TRANSACTION_DEPTH_queue_for_depth_check       da(integral)                           0     -
+          transaction_depth_idx                         integral                               32    'h0
+          ap_done_num_idx                               integral                               32    'h0
+          is_binary                                     integral                               32    'h0
+        write_file_done_out_stream_out_stream_TSTRB     integral                               32    'h0
+        write_section_done_out_stream_out_stream_TSTRB  integral                               32    'h0
+        file_wr_port_out_stream_out_stream_TLAST        <unknown>                              -     @2370
+          TV_FILE                                       string                                 0     ""
+          fp                                            integral                               32    'hxxxxxxxx
+          file_open                                     integral                               32    'h0
+          write_file_done                               integral                               32    'h0
+          write_section_done                            integral                               32    'h0
+          TRANSACTION_NUM                               integral                               32    'h0
+          transaction_num_idx                           integral                               32    'h0
+          TRANSACTION_DEPTH                             integral                               32    'h0
+          TRANSACTION_DEPTH_queue                       da(integral)                           0     -
+          TRANSACTION_DEPTH_queue_for_depth_check       da(integral)                           0     -
+          transaction_depth_idx                         integral                               32    'h0
+          ap_done_num_idx                               integral                               32    'h0
+          is_binary                                     integral                               32    'h0
+        write_file_done_out_stream_out_stream_TLAST     integral                               32    'h0
+        write_section_done_out_stream_out_stream_TLAST  integral                               32    'h0
+      svr_master_in_stream_imp                          uvm_analysis_imp_svr_master_in_stream  -     @479
+      svr_slave_out_stream_imp                          uvm_analysis_imp_svr_slave_out_stream  -     @489
+    env_master_svr_in_stream                            uvm_env                                -     @401
+    env_slave_svr_out_stream                            uvm_env                                -     @414
+    refm                                                fir4_reference_model                   -     @457
+    fir4_virtual_sqr                                    fir4_virtual_sequencer                 -     @519
+    fir4_cfg                                            fir4_config                            -     @395
+      port_in_stream_cfg                                svr_config                             -     @396
+        svr_type                                        svr_inst_type                          32    SVR_MASTER
+        prt_type                                        svr_protocol_type                      32    AXIS
+        is_active                                       svr_active_passive_enum                1     SVR_ACTIVE
+        reset_level                                     svr_reset_level_enum                   1     RESET_LEVEL_LOW
+        spec_cfg                                        svr_spec_cfg_enum                      32    NORMAL
+        clatency                                        svr_latency                            -     @397
+          transfer_latency                              integral                               32    'h0
+      port_out_stream_cfg                               svr_config                             -     @398
+        svr_type                                        svr_inst_type                          32    SVR_SLAVE
+        prt_type                                        svr_protocol_type                      32    AXIS
+        is_active                                       svr_active_passive_enum                1     SVR_ACTIVE
+        reset_level                                     svr_reset_level_enum                   1     RESET_LEVEL_LOW
+        spec_cfg                                        svr_spec_cfg_enum                      32    NORMAL
+        clatency                                        svr_latency                            -     @399
+          transfer_latency                              integral                               32    'h0
+      control_cfg                                       axi_cfg                                -     @400
+        has_checker                                     integral                               1     'h1
+        has_coverage                                    integral                               1     'h1
+        id_num                                          integral                               32    'h1
+        reset_level                                     reset_level_enum                       32    RESET_LEVEL_LOW
+        drv_type                                        drv_type_enum                          32    MASTER
+        write_latency_mode                              latency_mode_enum                      32    CHANNEL_FIRST
+        read_latency_mode                               latency_mode_enum                      32    CHANNEL_FIRST
+        clatency                                        axi_latency                            -     @424
+          wr_latency                                    integral                               32    'h0
+          rd_latency                                    integral                               32    'h0
+      check_ena                                         integral                               32    'h0
+      cover_ena                                         integral                               32    'h0
+--------------------------------------------------------------------------------------------------------------------
+
+UVM_INFO /eda/xilinx/2026.1/Vivado/data/system_verilog/uvm_1.2/xlnx_uvm_package.sv(20867) @ 0: reporter [UVM/COMP/NAMECHECK] This implementation of the component name checks requires DPI to be enabled
+////////////////////////////////////////////////////////////////////////////////////
+// Inter-Transaction Progress: Completed Transaction / Total Transaction
+// Intra-Transaction Progress: Measured Latency / Latency Estimation * 100%
+//
+// RTL Simulation : "Inter-Transaction Progress" ["Intra-Transaction Progress"] @ "Simulation Time"
+////////////////////////////////////////////////////////////////////////////////////
+// RTL Simulation : 0 / 34 [0.00%] @ "125000"
+// RTL Simulation : 1 / 34 [100.00%] @ "1065000"
+// RTL Simulation : 2 / 34 [100.00%] @ "1575000"
+// RTL Simulation : 3 / 34 [100.00%] @ "2165000"
+// RTL Simulation : 4 / 34 [100.00%] @ "2595000"
+// RTL Simulation : 5 / 34 [100.00%] @ "13545000"
+// RTL Simulation : 6 / 34 [100.00%] @ "95895000"
+// RTL Simulation : 7 / 34 [100.00%] @ "96085000"
+// RTL Simulation : 8 / 34 [100.00%] @ "96555000"
+// RTL Simulation : 9 / 34 [100.00%] @ "96745000"
+// RTL Simulation : 10 / 34 [100.00%] @ "97215000"
+// RTL Simulation : 11 / 34 [100.00%] @ "97405000"
+// RTL Simulation : 12 / 34 [100.00%] @ "97875000"
+// RTL Simulation : 13 / 34 [100.00%] @ "98065000"
+// RTL Simulation : 14 / 34 [100.00%] @ "98535000"
+// RTL Simulation : 15 / 34 [100.00%] @ "98725000"
+// RTL Simulation : 16 / 34 [100.00%] @ "99195000"
+// RTL Simulation : 17 / 34 [100.00%] @ "99385000"
+// RTL Simulation : 18 / 34 [100.00%] @ "99855000"
+// RTL Simulation : 19 / 34 [100.00%] @ "100045000"
+// RTL Simulation : 20 / 34 [100.00%] @ "100515000"
+// RTL Simulation : 21 / 34 [100.00%] @ "100825000"
+// RTL Simulation : 22 / 34 [100.00%] @ "101295000"
+// RTL Simulation : 23 / 34 [100.00%] @ "101605000"
+// RTL Simulation : 24 / 34 [100.00%] @ "102075000"
+// RTL Simulation : 25 / 34 [100.00%] @ "102265000"
+// RTL Simulation : 26 / 34 [100.00%] @ "102735000"
+// RTL Simulation : 27 / 34 [100.00%] @ "102965000"
+// RTL Simulation : 28 / 34 [100.00%] @ "103435000"
+// RTL Simulation : 29 / 34 [100.00%] @ "103705000"
+// RTL Simulation : 30 / 34 [100.00%] @ "104175000"
+// RTL Simulation : 31 / 34 [100.00%] @ "104725000"
+// RTL Simulation : 32 / 34 [100.00%] @ "105195000"
+// RTL Simulation : 33 / 34 [100.00%] @ "105585000"
+// RTL Simulation : 34 / 34 [100.00%] @ "106055000"
+////////////////////////////////////////////////////////////////////////////////////
+$finish called at time : 106225 ns : File "/eda/xilinx/2026.1/Vivado/data/system_verilog/uvm_1.2/xlnx_uvm_package.sv" Line 18699
+## quit
+INFO: xsimkernel Simulation Memory Usage: 352652 KB (Peak: 401796 KB), Simulation CPU Usage: 5000 ms
+INFO: [Common 17-206] Exiting xsim at Wed Nov  4 16:47:07 2026...
+INFO: [COSIM 212-316] Starting C post checking ...
+hand_split_reset_reconfigure: incorrect output beat 2
+hand_split_reset_reconfigure: incorrect output beat 5
+hand_split_reset_reconfigure: incorrect output beat 6
+hand_split_reset_reconfigure: incorrect output beat 7
+hand_split_reset_reconfigure: incorrect output beat 13
+KERNEL FAIL hand_split_reset_reconfigure: status=(0,0,0); expected_output_beats=14; queued_input_checked=0
+KERNEL PASS hand_floor_and_upper_bits: status=(0,0,0); expected_output_beats=5; queued_input_checked=0
+hand_full_accumulator_and_saturation: incorrect output beat 6
+KERNEL FAIL hand_full_accumulator_and_saturation: status=(0,0,0); expected_output_beats=9; queued_input_checked=0
+KERNEL PASS activation_state_reset: status=(0,0,0); expected_output_beats=2; queued_input_checked=0
+seeded_multicommand: incorrect output beat 2
+seeded_multicommand: incorrect output beat 3
+seeded_multicommand: incorrect output beat 4
+seeded_multicommand: incorrect output beat 5
+seeded_multicommand: incorrect output beat 6
+seeded_multicommand: incorrect output beat 7
+seeded_multicommand: incorrect output beat 8
+seeded_multicommand: incorrect output beat 9
+seeded_multicommand: incorrect output beat 10
+seeded_multicommand: incorrect output beat 11
+seeded_multicommand: incorrect output beat 12
+seeded_multicommand: incorrect output beat 13
+seeded_multicommand: incorrect output beat 14
+seeded_multicommand: incorrect output beat 15
+seeded_multicommand: incorrect output beat 16
+seeded_multicommand: incorrect output beat 17
+seeded_multicommand: incorrect output beat 18
+seeded_multicommand: incorrect output beat 19
+seeded_multicommand: incorrect output beat 20
+seeded_multicommand: incorrect output beat 21
+seeded_multicommand: incorrect output beat 22
+seeded_multicommand: incorrect output beat 23
+seeded_multicommand: incorrect output beat 24
+seeded_multicommand: incorrect output beat 25
+seeded_multicommand: incorrect output beat 26
+seeded_multicommand: incorrect output beat 27
+seeded_multicommand: incorrect output beat 28
+seeded_multicommand: incorrect output beat 29
+seeded_multicommand: incorrect output beat 30
+seeded_multicommand: incorrect output beat 31
+seeded_multicommand: incorrect output beat 32
+seeded_multicommand: incorrect output beat 33
+seeded_multicommand: incorrect output beat 34
+seeded_multicommand: incorrect output beat 35
+seeded_multicommand: incorrect output beat 36
+seeded_multicommand: incorrect output beat 37
+seeded_multicommand: incorrect output beat 38
+seeded_multicommand: incorrect output beat 39
+seeded_multicommand: incorrect output beat 40
+seeded_multicommand: incorrect output beat 41
+seeded_multicommand: incorrect output beat 42
+seeded_multicommand: incorrect output beat 43
+seeded_multicommand: incorrect output beat 44
+seeded_multicommand: incorrect output beat 45
+seeded_multicommand: incorrect output beat 46
+seeded_multicommand: incorrect output beat 47
+seeded_multicommand: incorrect output beat 48
+seeded_multicommand: incorrect output beat 49
+seeded_multicommand: incorrect output beat 50
+seeded_multicommand: incorrect output beat 51
+seeded_multicommand: incorrect output beat 52
+seeded_multicommand: incorrect output beat 53
+seeded_multicommand: incorrect output beat 54
+seeded_multicommand: incorrect output beat 55
+seeded_multicommand: incorrect output beat 56
+seeded_multicommand: incorrect output beat 57
+seeded_multicommand: incorrect output beat 58
+seeded_multicommand: incorrect output beat 59
+seeded_multicommand: incorrect output beat 60
+seeded_multicommand: incorrect output beat 61
+seeded_multicommand: incorrect output beat 62
+seeded_multicommand: incorrect output beat 63
+seeded_multicommand: incorrect output beat 64
+seeded_multicommand: incorrect output beat 65
+seeded_multicommand: incorrect output beat 66
+seeded_multicommand: incorrect output beat 67
+seeded_multicommand: incorrect output beat 68
+seeded_multicommand: incorrect output beat 69
+seeded_multicommand: incorrect output beat 72
+seeded_multicommand: incorrect output beat 73
+seeded_multicommand: incorrect output beat 74
+seeded_multicommand: incorrect output beat 75
+seeded_multicommand: incorrect output beat 76
+seeded_multicommand: incorrect output beat 77
+seeded_multicommand: incorrect output beat 78
+seeded_multicommand: incorrect output beat 79
+seeded_multicommand: incorrect output beat 80
+seeded_multicommand: incorrect output beat 81
+seeded_multicommand: incorrect output beat 82
+seeded_multicommand: incorrect output beat 83
+seeded_multicommand: incorrect output beat 84
+seeded_multicommand: incorrect output beat 85
+seeded_multicommand: incorrect output beat 86
+seeded_multicommand: incorrect output beat 87
+seeded_multicommand: incorrect output beat 88
+seeded_multicommand: incorrect output beat 89
+seeded_multicommand: incorrect output beat 90
+seeded_multicommand: incorrect output beat 91
+seeded_multicommand: incorrect output beat 92
+seeded_multicommand: incorrect output beat 93
+seeded_multicommand: incorrect output beat 94
+seeded_multicommand: incorrect output beat 95
+seeded_multicommand: incorrect output beat 96
+seeded_multicommand: incorrect output beat 97
+seeded_multicommand: incorrect output beat 98
+seeded_multicommand: incorrect output beat 99
+seeded_multicommand: incorrect output beat 100
+seeded_multicommand: incorrect output beat 101
+seeded_multicommand: incorrect output beat 102
+seeded_multicommand: incorrect output beat 103
+seeded_multicommand: incorrect output beat 104
+seeded_multicommand: incorrect output beat 105
+seeded_multicommand: incorrect output beat 106
+seeded_multicommand: incorrect output beat 107
+seeded_multicommand: incorrect output beat 108
+seeded_multicommand: incorrect output beat 109
+seeded_multicommand: incorrect output beat 110
+seeded_multicommand: incorrect output beat 111
+seeded_multicommand: incorrect output beat 113
+seeded_multicommand: incorrect output beat 114
+seeded_multicommand: incorrect output beat 115
+seeded_multicommand: incorrect output beat 116
+seeded_multicommand: incorrect output beat 117
+seeded_multicommand: incorrect output beat 118
+seeded_multicommand: incorrect output beat 120
+seeded_multicommand: incorrect output beat 121
+seeded_multicommand: incorrect output beat 122
+seeded_multicommand: incorrect output beat 123
+seeded_multicommand: incorrect output beat 125
+seeded_multicommand: incorrect output beat 126
+seeded_multicommand: incorrect output beat 128
+seeded_multicommand: incorrect output beat 129
+seeded_multicommand: incorrect output beat 130
+seeded_multicommand: incorrect output beat 131
+seeded_multicommand: incorrect output beat 132
+seeded_multicommand: incorrect output beat 133
+seeded_multicommand: incorrect output beat 134
+seeded_multicommand: incorrect output beat 135
+seeded_multicommand: incorrect output beat 136
+seeded_multicommand: incorrect output beat 137
+seeded_multicommand: incorrect output beat 138
+seeded_multicommand: incorrect output beat 139
+seeded_multicommand: incorrect output beat 140
+seeded_multicommand: incorrect output beat 141
+seeded_multicommand: incorrect output beat 142
+seeded_multicommand: incorrect output beat 143
+seeded_multicommand: incorrect output beat 144
+seeded_multicommand: incorrect output beat 145
+seeded_multicommand: incorrect output beat 146
+seeded_multicommand: incorrect output beat 147
+seeded_multicommand: incorrect output beat 148
+seeded_multicommand: incorrect output beat 149
+seeded_multicommand: incorrect output beat 150
+seeded_multicommand: incorrect output beat 151
+seeded_multicommand: incorrect output beat 152
+seeded_multicommand: incorrect output beat 153
+seeded_multicommand: incorrect output beat 154
+seeded_multicommand: incorrect output beat 155
+seeded_multicommand: incorrect output beat 156
+seeded_multicommand: incorrect output beat 157
+seeded_multicommand: incorrect output beat 158
+seeded_multicommand: incorrect output beat 159
+seeded_multicommand: incorrect output beat 160
+seeded_multicommand: incorrect output beat 161
+seeded_multicommand: incorrect output beat 162
+seeded_multicommand: incorrect output beat 163
+seeded_multicommand: incorrect output beat 165
+seeded_multicommand: incorrect output beat 166
+seeded_multicommand: incorrect output beat 167
+seeded_multicommand: incorrect output beat 168
+seeded_multicommand: incorrect output beat 169
+seeded_multicommand: incorrect output beat 170
+seeded_multicommand: incorrect output beat 171
+seeded_multicommand: incorrect output beat 172
+seeded_multicommand: incorrect output beat 174
+seeded_multicommand: incorrect output beat 175
+seeded_multicommand: incorrect output beat 176
+seeded_multicommand: incorrect output beat 177
+seeded_multicommand: incorrect output beat 178
+seeded_multicommand: incorrect output beat 180
+seeded_multicommand: incorrect output beat 181
+seeded_multicommand: incorrect output beat 182
+seeded_multicommand: incorrect output beat 183
+seeded_multicommand: incorrect output beat 184
+seeded_multicommand: incorrect output beat 185
+seeded_multicommand: incorrect output beat 186
+seeded_multicommand: incorrect output beat 187
+seeded_multicommand: incorrect output beat 188
+seeded_multicommand: incorrect output beat 189
+seeded_multicommand: incorrect output beat 190
+seeded_multicommand: incorrect output beat 191
+seeded_multicommand: incorrect output beat 192
+seeded_multicommand: incorrect output beat 193
+seeded_multicommand: incorrect output beat 194
+seeded_multicommand: incorrect output beat 195
+seeded_multicommand: incorrect output beat 196
+seeded_multicommand: incorrect output beat 197
+seeded_multicommand: incorrect output beat 198
+seeded_multicommand: incorrect output beat 199
+seeded_multicommand: incorrect output beat 200
+seeded_multicommand: incorrect output beat 201
+seeded_multicommand: incorrect output beat 202
+seeded_multicommand: incorrect output beat 203
+seeded_multicommand: incorrect output beat 204
+seeded_multicommand: incorrect output beat 205
+seeded_multicommand: incorrect output beat 206
+seeded_multicommand: incorrect output beat 207
+seeded_multicommand: incorrect output beat 208
+seeded_multicommand: incorrect output beat 209
+seeded_multicommand: incorrect output beat 210
+seeded_multicommand: incorrect output beat 211
+seeded_multicommand: incorrect output beat 212
+seeded_multicommand: incorrect output beat 213
+seeded_multicommand: incorrect output beat 214
+seeded_multicommand: incorrect output beat 215
+seeded_multicommand: incorrect output beat 216
+seeded_multicommand: incorrect output beat 217
+seeded_multicommand: incorrect output beat 218
+seeded_multicommand: incorrect output beat 219
+seeded_multicommand: incorrect output beat 220
+seeded_multicommand: incorrect output beat 221
+seeded_multicommand: incorrect output beat 222
+seeded_multicommand: incorrect output beat 223
+seeded_multicommand: incorrect output beat 224
+seeded_multicommand: incorrect output beat 225
+seeded_multicommand: incorrect output beat 226
+seeded_multicommand: incorrect output beat 227
+seeded_multicommand: incorrect output beat 228
+seeded_multicommand: incorrect output beat 229
+seeded_multicommand: incorrect output beat 230
+seeded_multicommand: incorrect output beat 231
+seeded_multicommand: incorrect output beat 232
+seeded_multicommand: incorrect output beat 233
+seeded_multicommand: incorrect output beat 234
+seeded_multicommand: incorrect output beat 235
+seeded_multicommand: incorrect output beat 236
+seeded_multicommand: incorrect output beat 237
+seeded_multicommand: incorrect output beat 238
+seeded_multicommand: incorrect output beat 239
+seeded_multicommand: incorrect output beat 240
+seeded_multicommand: incorrect output beat 241
+seeded_multicommand: incorrect output beat 242
+seeded_multicommand: incorrect output beat 243
+seeded_multicommand: incorrect output beat 244
+seeded_multicommand: incorrect output beat 245
+seeded_multicommand: incorrect output beat 246
+seeded_multicommand: incorrect output beat 247
+seeded_multicommand: incorrect output beat 248
+seeded_multicommand: incorrect output beat 249
+seeded_multicommand: incorrect output beat 250
+seeded_multicommand: incorrect output beat 251
+seeded_multicommand: incorrect output beat 252
+seeded_multicommand: incorrect output beat 253
+seeded_multicommand: incorrect output beat 254
+seeded_multicommand: incorrect output beat 255
+seeded_multicommand: incorrect output beat 256
+seeded_multicommand: incorrect output beat 261
+seeded_multicommand: incorrect output beat 262
+seeded_multicommand: incorrect output beat 263
+seeded_multicommand: incorrect output beat 264
+seeded_multicommand: incorrect output beat 265
+seeded_multicommand: incorrect output beat 266
+seeded_multicommand: incorrect output beat 267
+seeded_multicommand: incorrect output beat 268
+seeded_multicommand: incorrect output beat 271
+seeded_multicommand: incorrect output beat 273
+seeded_multicommand: incorrect output beat 274
+seeded_multicommand: incorrect output beat 275
+seeded_multicommand: incorrect output beat 276
+seeded_multicommand: incorrect output beat 277
+seeded_multicommand: incorrect output beat 278
+seeded_multicommand: incorrect output beat 279
+seeded_multicommand: incorrect output beat 280
+seeded_multicommand: incorrect output beat 282
+seeded_multicommand: incorrect output beat 284
+seeded_multicommand: incorrect output beat 285
+seeded_multicommand: incorrect output beat 286
+seeded_multicommand: incorrect output beat 287
+seeded_multicommand: incorrect output beat 288
+seeded_multicommand: incorrect output beat 289
+seeded_multicommand: incorrect output beat 291
+seeded_multicommand: incorrect output beat 292
+seeded_multicommand: incorrect output beat 293
+seeded_multicommand: incorrect output beat 295
+seeded_multicommand: incorrect output beat 296
+seeded_multicommand: incorrect output beat 297
+seeded_multicommand: incorrect output beat 298
+seeded_multicommand: incorrect output beat 299
+seeded_multicommand: incorrect output beat 301
+seeded_multicommand: incorrect output beat 303
+seeded_multicommand: incorrect output beat 306
+seeded_multicommand: incorrect output beat 307
+seeded_multicommand: incorrect output beat 308
+seeded_multicommand: incorrect output beat 309
+seeded_multicommand: incorrect output beat 310
+seeded_multicommand: incorrect output beat 311
+seeded_multicommand: incorrect output beat 312
+seeded_multicommand: incorrect output beat 313
+seeded_multicommand: incorrect output beat 314
+seeded_multicommand: incorrect output beat 315
+seeded_multicommand: incorrect output beat 316
+seeded_multicommand: incorrect output beat 317
+seeded_multicommand: incorrect output beat 318
+seeded_multicommand: incorrect output beat 319
+seeded_multicommand: incorrect output beat 320
+seeded_multicommand: incorrect output beat 321
+seeded_multicommand: incorrect output beat 322
+seeded_multicommand: incorrect output beat 323
+seeded_multicommand: incorrect output beat 324
+seeded_multicommand: incorrect output beat 325
+seeded_multicommand: incorrect output beat 326
+seeded_multicommand: incorrect output beat 327
+seeded_multicommand: incorrect output beat 328
+seeded_multicommand: incorrect output beat 329
+seeded_multicommand: incorrect output beat 330
+seeded_multicommand: incorrect output beat 331
+seeded_multicommand: incorrect output beat 332
+seeded_multicommand: incorrect output beat 333
+seeded_multicommand: incorrect output beat 334
+seeded_multicommand: incorrect output beat 335
+seeded_multicommand: incorrect output beat 337
+seeded_multicommand: incorrect output beat 340
+seeded_multicommand: incorrect output beat 341
+seeded_multicommand: incorrect output beat 342
+seeded_multicommand: incorrect output beat 343
+seeded_multicommand: incorrect output beat 344
+seeded_multicommand: incorrect output beat 345
+seeded_multicommand: incorrect output beat 346
+seeded_multicommand: incorrect output beat 347
+seeded_multicommand: incorrect output beat 348
+seeded_multicommand: incorrect output beat 349
+seeded_multicommand: incorrect output beat 354
+seeded_multicommand: incorrect output beat 355
+seeded_multicommand: incorrect output beat 356
+seeded_multicommand: incorrect output beat 357
+seeded_multicommand: incorrect output beat 358
+seeded_multicommand: incorrect output beat 359
+seeded_multicommand: incorrect output beat 360
+seeded_multicommand: incorrect output beat 361
+seeded_multicommand: incorrect output beat 365
+seeded_multicommand: incorrect output beat 366
+seeded_multicommand: incorrect output beat 367
+seeded_multicommand: incorrect output beat 368
+seeded_multicommand: incorrect output beat 369
+seeded_multicommand: incorrect output beat 370
+seeded_multicommand: incorrect output beat 371
+seeded_multicommand: incorrect output beat 372
+seeded_multicommand: incorrect output beat 376
+seeded_multicommand: incorrect output beat 377
+seeded_multicommand: incorrect output beat 378
+seeded_multicommand: incorrect output beat 379
+seeded_multicommand: incorrect output beat 380
+seeded_multicommand: incorrect output beat 381
+seeded_multicommand: incorrect output beat 382
+seeded_multicommand: incorrect output beat 384
+seeded_multicommand: incorrect output beat 385
+seeded_multicommand: incorrect output beat 386
+seeded_multicommand: incorrect output beat 388
+seeded_multicommand: incorrect output beat 389
+seeded_multicommand: incorrect output beat 390
+seeded_multicommand: incorrect output beat 391
+seeded_multicommand: incorrect output beat 392
+seeded_multicommand: incorrect output beat 393
+seeded_multicommand: incorrect output beat 394
+seeded_multicommand: incorrect output beat 395
+seeded_multicommand: incorrect output beat 396
+seeded_multicommand: incorrect output beat 397
+seeded_multicommand: incorrect output beat 399
+seeded_multicommand: incorrect output beat 400
+seeded_multicommand: incorrect output beat 401
+seeded_multicommand: incorrect output beat 402
+seeded_multicommand: incorrect output beat 403
+seeded_multicommand: incorrect output beat 404
+seeded_multicommand: incorrect output beat 406
+seeded_multicommand: incorrect output beat 407
+seeded_multicommand: incorrect output beat 408
+seeded_multicommand: incorrect output beat 413
+seeded_multicommand: incorrect output beat 414
+seeded_multicommand: incorrect output beat 415
+seeded_multicommand: incorrect output beat 416
+seeded_multicommand: incorrect output beat 417
+seeded_multicommand: incorrect output beat 418
+seeded_multicommand: incorrect output beat 421
+seeded_multicommand: incorrect output beat 422
+seeded_multicommand: incorrect output beat 423
+seeded_multicommand: incorrect output beat 424
+seeded_multicommand: incorrect output beat 425
+seeded_multicommand: incorrect output beat 427
+seeded_multicommand: incorrect output beat 428
+seeded_multicommand: incorrect output beat 429
+seeded_multicommand: incorrect output beat 430
+seeded_multicommand: incorrect output beat 431
+seeded_multicommand: incorrect output beat 433
+seeded_multicommand: incorrect output beat 434
+seeded_multicommand: incorrect output beat 435
+seeded_multicommand: incorrect output beat 436
+seeded_multicommand: incorrect output beat 437
+seeded_multicommand: incorrect output beat 438
+seeded_multicommand: incorrect output beat 439
+seeded_multicommand: incorrect output beat 440
+seeded_multicommand: incorrect output beat 441
+seeded_multicommand: incorrect output beat 442
+seeded_multicommand: incorrect output beat 443
+seeded_multicommand: incorrect output beat 445
+seeded_multicommand: incorrect output beat 446
+seeded_multicommand: incorrect output beat 449
+seeded_multicommand: incorrect output beat 451
+seeded_multicommand: incorrect output beat 453
+seeded_multicommand: incorrect output beat 454
+seeded_multicommand: incorrect output beat 455
+seeded_multicommand: incorrect output beat 456
+seeded_multicommand: incorrect output beat 457
+seeded_multicommand: incorrect output beat 458
+seeded_multicommand: incorrect output beat 459
+seeded_multicommand: incorrect output beat 460
+seeded_multicommand: incorrect output beat 461
+seeded_multicommand: incorrect output beat 463
+seeded_multicommand: incorrect output beat 464
+seeded_multicommand: incorrect output beat 465
+seeded_multicommand: incorrect output beat 467
+seeded_multicommand: incorrect output beat 468
+seeded_multicommand: incorrect output beat 469
+seeded_multicommand: incorrect output beat 470
+seeded_multicommand: incorrect output beat 473
+seeded_multicommand: incorrect output beat 474
+seeded_multicommand: incorrect output beat 475
+seeded_multicommand: incorrect output beat 476
+seeded_multicommand: incorrect output beat 477
+seeded_multicommand: incorrect output beat 478
+seeded_multicommand: incorrect output beat 480
+seeded_multicommand: incorrect output beat 481
+seeded_multicommand: incorrect output beat 484
+seeded_multicommand: incorrect output beat 485
+seeded_multicommand: incorrect output beat 486
+seeded_multicommand: incorrect output beat 487
+seeded_multicommand: incorrect output beat 488
+seeded_multicommand: incorrect output beat 489
+seeded_multicommand: incorrect output beat 490
+seeded_multicommand: incorrect output beat 491
+seeded_multicommand: incorrect output beat 492
+seeded_multicommand: incorrect output beat 493
+seeded_multicommand: incorrect output beat 494
+seeded_multicommand: incorrect output beat 495
+seeded_multicommand: incorrect output beat 496
+seeded_multicommand: incorrect output beat 497
+seeded_multicommand: incorrect output beat 498
+seeded_multicommand: incorrect output beat 499
+seeded_multicommand: incorrect output beat 501
+seeded_multicommand: incorrect output beat 502
+seeded_multicommand: incorrect output beat 503
+seeded_multicommand: incorrect output beat 504
+seeded_multicommand: incorrect output beat 505
+seeded_multicommand: incorrect output beat 506
+seeded_multicommand: incorrect output beat 508
+seeded_multicommand: incorrect output beat 509
+seeded_multicommand: incorrect output beat 510
+seeded_multicommand: incorrect output beat 512
+seeded_multicommand: incorrect output beat 513
+KERNEL FAIL seeded_multicommand: status=(0,0,0); expected_output_beats=514; queued_input_checked=0
+KERNEL PASS timing_4096: status=(0,0,0); expected_output_beats=4097; queued_input_checked=0
+KERNEL PASS header_priority: status=(1,1,21); expected_output_beats=0; queued_input_checked=0
+header_priority_restart: incorrect output beat 2
+KERNEL FAIL header_priority_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS unknown_opcode: status=(1,2,22); expected_output_beats=0; queued_input_checked=0
+unknown_opcode_restart: incorrect output beat 2
+KERNEL FAIL unknown_opcode_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS zero_data: status=(1,3,23); expected_output_beats=0; queued_input_checked=0
+zero_data_restart: incorrect output beat 2
+KERNEL FAIL zero_data_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS oversize_data: status=(1,3,24); expected_output_beats=0; queued_input_checked=0
+oversize_data_restart: incorrect output beat 2
+KERNEL FAIL oversize_data_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS data_before_config: status=(1,4,25); expected_output_beats=0; queued_input_checked=0
+data_before_config_restart: incorrect output beat 2
+KERNEL FAIL data_before_config_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS end_before_config: status=(1,4,26); expected_output_beats=0; queued_input_checked=0
+end_before_config_restart: incorrect output beat 2
+KERNEL FAIL end_before_config_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS action_before_config: status=(1,4,27); expected_output_beats=0; queued_input_checked=0
+action_before_config_restart: incorrect output beat 2
+KERNEL FAIL action_before_config_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS bad_action_count: status=(1,3,28); expected_output_beats=0; queued_input_checked=0
+bad_action_count_restart: incorrect output beat 2
+KERNEL FAIL bad_action_count_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS bad_end_count: status=(1,3,29); expected_output_beats=0; queued_input_checked=0
+bad_end_count_restart: incorrect output beat 2
+KERNEL FAIL bad_end_count_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS bad_config_count: status=(1,3,30); expected_output_beats=0; queued_input_checked=0
+bad_config_count_restart: incorrect output beat 2
+KERNEL FAIL bad_config_count_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS config_early: status=(1,5,31); expected_output_beats=0; queued_input_checked=0
+config_early_restart: incorrect output beat 2
+KERNEL FAIL config_early_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS config_missing: status=(1,6,32); expected_output_beats=0; queued_input_checked=0
+config_missing_restart: incorrect output beat 2
+KERNEL FAIL config_missing_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+data_early: incorrect output beat 4
+KERNEL FAIL data_early: status=(1,5,35); expected_output_beats=5; queued_input_checked=0
+data_early_restart: incorrect output beat 2
+KERNEL FAIL data_early_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS data_missing: status=(1,6,36); expected_output_beats=2; queued_input_checked=0
+data_missing_restart: incorrect output beat 2
+KERNEL FAIL data_missing_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+16/34 scenarios passed
+INFO [HLS SIM]: The maximum depth reached by any hls::stream() instance in the design is 4103
+ERROR: [COSIM 212-361] C TB post check failed, nonzero return value '1'.
+ERROR: [COSIM 212-4] *** C/RTL co-simulation finished: FAIL ***
+INFO: [HLS 200-2161] Finished Command cosim_design Elapsed time: 00:00:44; Allocated memory: 11.500 MB.
+command 'ap_source' returned error code
+    while executing
+"source <EDA-workdir>"
+    ("uplevel" body line 1)
+    invoked from within
+"uplevel \#0 [list source $tclfile] "
+
+INFO: [HLS 200-112] Total CPU user time: 151.01 seconds. Total CPU system time: 8.01 seconds. Total elapsed time: 70.97 seconds; peak allocated memory: 351.125 MB.
+INFO: [vitis-run 60-1662] Stopping dispatch session having empty uuid.

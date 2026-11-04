@@ -11,6 +11,7 @@ def run(words):
     cursor = 0
     configured = False
     history = [0, 0, 0]
+    command_index = 0
 
     def read():
         nonlocal cursor
@@ -46,6 +47,9 @@ def run(words):
             return fail(4, tx)
         if op == 255:
             return output, (0, 0, 0), cursor
+        if command_index == 64:
+            return fail(7, tx)
+        command_index += 1
         if op == 1:
             values = []
             for word, _, frame_error in payload(count):

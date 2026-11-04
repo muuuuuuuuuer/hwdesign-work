@@ -1,0 +1,6 @@
+input_header_cycle=29; first_input_cycle=32
+first_output_cycle=39; last_output_cycle=32799
+first_output_latency_cycles=7
+data_command_latency_cycles=32770
+throughput_samples_per_cycle=0.125000000
+throughput_target=FAIL

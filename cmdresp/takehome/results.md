@@ -1,102 +1,107 @@
 # Part 4 results — Streaming four-tap FIR
 
-Both projects follow the [course command-response rules](https://sdrangan.github.io/hwdesign/docs/labs/cmdresp/pattern.html) and the [Waveflow streaming polynomial example](https://sdrangan.github.io/waveflow/docs/examples/stream_inband/).
-
 ## Interface
 
-The stream ports are `in_stream` and `out_stream`. The source declares 32-bit TDATA with TLAST and both four-bit masks set to 0xf. Every header is its own TLAST burst. Its opcode is [31:24], transaction ID is [23:16], and declared payload length is [15:0]. Each signed fixed-point payload value occupies [15:0] with eight fractional bits. The kernel ignores input [31:16] and writes output [31:16] as zero.
+The 32-bit AXI4-Stream input and output carry one-word headers and separate payload bursts; TKEEP and TSTRB are 0xf. Header fields are opcode [31:24], transaction ID [23:16], and count [15:0]. Signed fixed-point input and output values occupy the low 16 bits. [Specification](prompt.md), [kernel](kernel.cpp).
 
-| Input | Input payload | Output |
+| Command | Input | Output |
 | --- | --- | --- |
-| CONFIG 0x01, count 4 | c0, c1, c2, c3 | None |
-| DATA 0x02, count 1–4096 | One sample per word | 0x82 header with echoed ID and declared count, then one result per consumed sample |
-| RESET_HISTORY 0x03, count 0 | None | 0x83 header with echoed ID and count 0 |
-| END 0xff, count 0 | None | None |
+| CONFIG (0x01) | Four tap coefficients | None |
+| DATA (0x02) | 1–4096 samples | 0x82 header and one filtered sample per consumed input |
+| RESET_HISTORY (0x03) | Count 0 | 0x83 header |
+| END (0xff) | Count 0 | None; finishes activation |
 
-The top-level AXI-Lite bundle is `control`. It exposes the standard block start/done control and three 32-bit status outputs `halted`, `error` and `error_tx_id`. Read the status for the current activation after completion. The physical register offsets are pending synthesis. Error priorities are header TLAST (1), unknown opcode (2), invalid count (3), absent CONFIG (4), early payload TLAST (5) and missing final payload TLAST (6). Header and CONFIG errors produce no response. A DATA error emits the result for the offending word with TLAST and retains the original declared count in the header. The host discards that response and keeps earlier completed responses.
+The `control` AXI-Lite bundle contains only the standard control at 0x00 and 32-bit read-only `halted` at 0x10, `error` at 0x20 and `error_tx_id` at 0x30; see the [generated AXI register map](evidence/run8_register_map.txt) and [RTL testbench](sentinel_tb.v). The input stream has `register_mode=off`, so the AXI input adapter does not accept extra beats after the kernel stops reading. An activation accepts at most 64 non-END commands. The next valid non-END header reports error 7 without accepting its payload; END remains legal after 64. Header errors 1–4 precede this limit check. Payload errors 5 and 6 process the offending DATA sample and halt. [Kernel](kernel.cpp), [prompt](prompt.md).
 
 ## Design
 
-CONFIG installs all four taps and clears the three history registers. RESET_HISTORY clears those registers and retains the taps. DATA keeps history across commands. The kernel computes four signed products, adds them in a signed 64-bit accumulator, floors after dividing by 256, and saturates to a signed 16-bit result. The coefficient array is partitioned and the DATA loop requests II=2. The Python model computes the dot product in unbounded integers with Python floor division. The tests independently check the split-burst tap order, reset and reconfiguration, negative fractional rounding, upper bits, and both saturation limits.
+CONFIG installs four taps and clears three history samples; RESET_HISTORY clears history; DATA retains history across commands. The dot product uses signed products and a 64-bit accumulator, floor division by 256, and saturation. The Python reference uses independently expressed integer arithmetic. To retain correct history in RTL after Run 6 failed, the DATA loop is unpipelined. This is a deliberate correctness/performance tradeoff: the original II and throughput targets remain unmet rather than being redefined. [Kernel](kernel.cpp), [reference](model.py), [failed pipeline log](evidence/run6_pipeline_cosim_fail.txt).
 
 ## Targets
 
-| Criterion | Required | Measured or declared | Result | Evidence |
+| Criterion | Target | Actual | Verdict | Evidence |
 | --- | --- | --- | --- | --- |
-| FPGA part | xc7z020clg400-1 | xc7z020clg400-1 configured | PASS (configuration) | [run.tcl](run.tcl), [FIR run](evidence/ecs04_fir_vitis.txt) |
-| Clock constraint | 10 ns | 10 ns configured | PASS (configuration) | [run.tcl](run.tcl), [FIR run](evidence/ecs04_fir_vitis.txt) |
-| Stream width | 32 bits per direction | 32 bits in source | PASS at source level | [kernel.hpp](kernel.hpp) |
-| C synthesis completion | Finish and generate the FIR synthesis report | Timed out (exit 124) | FAIL (timeout) | [Baseline FIR run](evidence/ecs04_fir_vitis.txt), [baseline exit status](evidence/ecs04_stage_status.txt), [diagnostic log](evidence/ecs03_no_data_pipeline_vitis.txt), [diagnostic exit status](evidence/ecs03_no_data_pipeline_diagnostic_status.txt) |
-| Estimated clock period | <=10 ns | No estimate produced | Unverified | [FIR run](evidence/ecs04_fir_vitis.txt), [exit status](evidence/ecs04_stage_status.txt) |
-| DATA loop achieved II | <=2 cycles | No schedule produced | Unverified | [FIR run](evidence/ecs04_fir_vitis.txt), [exit status](evidence/ecs04_stage_status.txt) |
-| DATA throughput | >=0.5 samples/cycle | RTL co-simulation blocked by synthesis | Unverified | [FIR run](evidence/ecs04_fir_vitis.txt), [exit status](evidence/ecs04_stage_status.txt) |
-| First-output and DATA command latency | Report cycles | RTL co-simulation blocked by synthesis | Unverified | [FIR run](evidence/ecs04_fir_vitis.txt), [exit status](evidence/ecs04_stage_status.txt) |
-| Timing activation latency | Report cycles | RTL co-simulation blocked by synthesis | Unverified | [FIR run](evidence/ecs04_fir_vitis.txt), [exit status](evidence/ecs04_stage_status.txt) |
-| LUT / FF / DSP / BRAM | Report counts | No resource report produced | Unverified | [FIR run](evidence/ecs04_fir_vitis.txt), [exit status](evidence/ecs04_stage_status.txt) |
+| FPGA part | xc7z020clg400-1 | xc7z020clg400-1 | PASS | [run.tcl](run.tcl), [synthesis](evidence/run8_csynth.rpt) |
+| Clock | 10 ns constraint; estimate <=10 ns | 10 ns constraint; 6.964 ns estimate | PASS (estimate) | [run.tcl](run.tcl), [synthesis](evidence/run8_csynth.rpt) |
+| Stream width | 32 bits each | 32 bits each | PASS | [kernel.hpp](kernel.hpp) |
+| Synthesis and RTL co-simulation | Complete | Both completed | PASS | [Vitis log](evidence/run8_vitis.txt), [co-sim report](evidence/run8_cosim.rpt) |
+| DATA loop II | <=2 cycles | Unpipelined; report lists no achieved II and iteration latency 8 cycles | FAIL target | [synthesis](evidence/run8_csynth.rpt) |
+| DATA throughput | >=0.5 samples/cycle | 0.125000000 samples/cycle | FAIL target | [measurement](evidence/run8_timing_measurements.txt), [waveform](evidence/run8_axis.vcd.gz), [measurement script](measure_rtl.py) |
+| First-output latency | Report cycles | 7 cycles | Measured | [measurement](evidence/run8_timing_measurements.txt), [waveform](evidence/run8_axis.vcd.gz) |
+| DATA command latency | Report cycles | 32770 cycles | Measured | [measurement](evidence/run8_timing_measurements.txt), [waveform](evidence/run8_axis.vcd.gz) |
+| Full 4096-sample activation latency | Report cycles | 32790 cycles | Measured | [timing co-sim](evidence/run8_timing_cosim.rpt) |
+| LUT / FF / DSP / BRAM_18K | Report synthesis estimates | 1367 / 953 / 4 / 0 | Reported | [synthesis](evidence/run8_csynth.rpt) |
+
+For the timing fixture, the measured DATA header, first input, first output, and last output occur at cycles 29, 32, 39, and 32799, respectively. A transfer is counted only on a rising edge with TVALID and TREADY high; throughput excludes the response header and equals 4095/(32799−39). [Waveform and numbers](evidence/run8_timing_measurements.txt). These are pre-implementation HLS estimates and RTL simulation measurements, not post-route timing.
 
 ## Verification
 
-Status tuples show (halted, error, tx_id). `_restart` rows run immediately after the named failure with fresh streams. The Python column includes the independent literals in [scenarios.py](scenarios.py). The seeded randomized case checks agreement between the two implementations. The C++ testbench compares TDATA, TLAST, TKEEP, TSTRB and status for every row. On failure it also checks that a queued sentinel is untouched. The RTL column is pending because FIR synthesis timed out. [Python log](evidence/python.txt), [host C++ log](evidence/host_cpp.txt), [Vitis C simulation log](evidence/vitis_csim.txt), [ecs04 rerun](evidence/ecs04_fir_vitis.txt).
+The following 39 scenarios passed the independent Python reference, host C++ with undefined-behavior sanitizer, Vitis C simulation and RTL co-simulation. Each `_restart` is a separate activation on fresh streams. The testbench compares output words, TLAST, TKEEP, TSTRB, and all status values. [Python](evidence/run8_python.txt), [host C++](evidence/run8_host_cpp.txt), [Vitis C-sim and RTL](evidence/run8_vitis.txt), [co-sim report](evidence/run8_cosim.rpt), [testbench](tb.cpp), [scenarios and hand-checked values](scenarios.py).
 
-RTL error read-ahead is a separate unverified check. The existing `--rtl` path does not append the sentinel. A passing run of that harness would confirm output and status for the supplied vectors, while the no-extra-handshake requirement would still need a directed RTL input trace. [Testbench](tb.cpp), [FIR run](evidence/ecs04_fir_vitis.txt).
+Separately, the [directed RTL sentinel test](sentinel_tb.v) presents a stable sentinel immediately after the offending word and records each input handshake through completion; all 16 error scenarios presented it for at least one rising edge and accepted zero, while AXI-Lite status registers matched. [Run 8 sentinel log](evidence/run8_rtl_sentinel.txt). Each test resets the DUT between error scenarios; recovery on a fresh stream is exercised separately by the paired RTL co-simulation scenarios rather than in this sentinel test.
 
-| Scenario | Expected status | Output beats | Python | Host C++ | Vitis C sim | RTL co-sim |
+| Scenario | Status (halted, error, tx) | Output beats | Python | Host C++ | Vitis C | RTL |
 | --- | --- | ---: | --- | --- | --- | --- |
-| `hand_split_reset_reconfigure` | (0, 0, 0) | 14 | PASS | PASS | PASS | Pending |
-| `hand_floor_and_upper_bits` | (0, 0, 0) | 5 | PASS | PASS | PASS | Pending |
-| `hand_full_accumulator_and_saturation` | (0, 0, 0) | 9 | PASS | PASS | PASS | Pending |
-| `activation_state_reset` | (0, 0, 0) | 2 | PASS | PASS | PASS | Pending |
-| `seeded_multicommand` | (0, 0, 0) | 514 | PASS | PASS | PASS | Pending |
-| `timing_4096` | (0, 0, 0) | 4097 | PASS | PASS | PASS | Pending |
-| `header_priority` | (1, 1, 21) | 0 | PASS | PASS | PASS | Pending |
-| `header_priority_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | Pending |
-| `unknown_opcode` | (1, 2, 22) | 0 | PASS | PASS | PASS | Pending |
-| `unknown_opcode_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | Pending |
-| `zero_data` | (1, 3, 23) | 0 | PASS | PASS | PASS | Pending |
-| `zero_data_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | Pending |
-| `oversize_data` | (1, 3, 24) | 0 | PASS | PASS | PASS | Pending |
-| `oversize_data_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | Pending |
-| `data_before_config` | (1, 4, 25) | 0 | PASS | PASS | PASS | Pending |
-| `data_before_config_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | Pending |
-| `end_before_config` | (1, 4, 26) | 0 | PASS | PASS | PASS | Pending |
-| `end_before_config_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | Pending |
-| `action_before_config` | (1, 4, 27) | 0 | PASS | PASS | PASS | Pending |
-| `action_before_config_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | Pending |
-| `bad_action_count` | (1, 3, 28) | 0 | PASS | PASS | PASS | Pending |
-| `bad_action_count_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | Pending |
-| `bad_end_count` | (1, 3, 29) | 0 | PASS | PASS | PASS | Pending |
-| `bad_end_count_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | Pending |
-| `bad_config_count` | (1, 3, 30) | 0 | PASS | PASS | PASS | Pending |
-| `bad_config_count_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | Pending |
-| `config_early` | (1, 5, 31) | 0 | PASS | PASS | PASS | Pending |
-| `config_early_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | Pending |
-| `config_missing` | (1, 6, 32) | 0 | PASS | PASS | PASS | Pending |
-| `config_missing_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | Pending |
-| `data_early` | (1, 5, 35) | 5 | PASS | PASS | PASS | Pending |
-| `data_early_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | Pending |
-| `data_missing` | (1, 6, 36) | 2 | PASS | PASS | PASS | Pending |
-| `data_missing_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | Pending |
+| `hand_split_reset_reconfigure` | (0, 0, 0) | 14 | PASS | PASS | PASS | PASS |
+| `hand_floor_and_upper_bits` | (0, 0, 0) | 5 | PASS | PASS | PASS | PASS |
+| `hand_full_accumulator_and_saturation` | (0, 0, 0) | 9 | PASS | PASS | PASS | PASS |
+| `activation_state_reset` | (0, 0, 0) | 2 | PASS | PASS | PASS | PASS |
+| `seeded_multicommand` | (0, 0, 0) | 514 | PASS | PASS | PASS | PASS |
+| `timing_4096` | (0, 0, 0) | 4097 | PASS | PASS | PASS | PASS |
+| `command_limit_allows_end` | (0, 0, 0) | 63 | PASS | PASS | PASS | PASS |
+| `header_priority` | (1, 1, 21) | 0 | PASS | PASS | PASS | PASS |
+| `header_priority_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | PASS |
+| `unknown_opcode` | (1, 2, 22) | 0 | PASS | PASS | PASS | PASS |
+| `unknown_opcode_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | PASS |
+| `zero_data` | (1, 3, 23) | 0 | PASS | PASS | PASS | PASS |
+| `zero_data_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | PASS |
+| `oversize_data` | (1, 3, 24) | 0 | PASS | PASS | PASS | PASS |
+| `oversize_data_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | PASS |
+| `data_before_config` | (1, 4, 25) | 0 | PASS | PASS | PASS | PASS |
+| `data_before_config_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | PASS |
+| `end_before_config` | (1, 4, 26) | 0 | PASS | PASS | PASS | PASS |
+| `end_before_config_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | PASS |
+| `action_before_config` | (1, 4, 27) | 0 | PASS | PASS | PASS | PASS |
+| `action_before_config_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | PASS |
+| `bad_action_count` | (1, 3, 28) | 0 | PASS | PASS | PASS | PASS |
+| `bad_action_count_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | PASS |
+| `bad_end_count` | (1, 3, 29) | 0 | PASS | PASS | PASS | PASS |
+| `bad_end_count_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | PASS |
+| `bad_config_count` | (1, 3, 30) | 0 | PASS | PASS | PASS | PASS |
+| `bad_config_count_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | PASS |
+| `command_limit` | (1, 7, 42) | 63 | PASS | PASS | PASS | PASS |
+| `command_limit_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | PASS |
+| `command_limit_header_priority` | (1, 1, 43) | 63 | PASS | PASS | PASS | PASS |
+| `command_limit_header_priority_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | PASS |
+| `config_early` | (1, 5, 31) | 0 | PASS | PASS | PASS | PASS |
+| `config_early_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | PASS |
+| `config_missing` | (1, 6, 32) | 0 | PASS | PASS | PASS | PASS |
+| `config_missing_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | PASS |
+| `data_early` | (1, 5, 35) | 5 | PASS | PASS | PASS | PASS |
+| `data_early_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | PASS |
+| `data_missing` | (1, 6, 36) | 2 | PASS | PASS | PASS | PASS |
+| `data_missing_restart` | (0, 0, 0) | 3 | PASS | PASS | PASS | PASS |
 
 ## Assumptions
 
-- The prompt defines the output, error precedence and reset semantics. A 64-bit accumulator, bias-assisted floor conversion and paired additions are implementation choices.
-- Generated stimulus uses seed 6463. The 4096-beat timing fixture is an identity filter with an independently predictable result. The hardware still has four programmable taps.
-- The existing RTL transactor supplies input through the offending beat. The host C++ and Vitis C simulations also queue a sentinel and check that it remains unread. [Testbench](tb.cpp).
-- Read the AXI-Lite outputs once the current activation completes. The reported logical reset concerns the new invocation's state.
+- Configuration and history are activation-local; a host discards an affected DATA response and resets its stream path before restarting. The kernel does not implement a missing-input timeout. [Prompt](prompt.md).
+- At most 64 non-END commands are accepted per activation; this is a proposed change to the earlier unlimited draft and is explicitly enforced with error 7. [Kernel](kernel.cpp), [boundary tests](test_command_limit.py), [prompt revision](prompt.md#revision-history).
+- The 4096-sample timing fixture uses identity coefficients and seeded randomized tests use seed 6463; the hardware remains a programmable four-tap FIR. [Scenarios](scenarios.py).
+- The NYU machine lacked a host UBSan runtime, so the sanitizer host run was performed in local WSL; Vitis synthesis and co-simulation ran on ecs03. Account paths in copied logs were redacted as `<EDA-workdir>`.
 
-## Open items
+## Open Items
 
-- On ecs03, synthesis stopped making visible progress immediately after the synthesizability check, both with default settings and with automatic loop pipelining disabled. On ecs04, Vitis 2026.1 synthesized the minimal increment probe on the same part at the same 10 ns constraint. FIR C simulation passed 34/34 again, and FIR synthesis timed out at the same stage. The probe confirms the tool can synthesize a minimal design on ecs04. The cause of the FIR stall remains undetermined. The FIR run did not reach RTL co-simulation, so achieved II, clock estimate, resources, latency and throughput remain unverified. The log copies omit the EDA account path. [ecs03 default](evidence/synthesis_default.txt), [ecs03 without automatic pipelining](evidence/synthesis_no_auto_pipeline.txt), [ecs04 probe](evidence/ecs04_probe.txt), [ecs04 FIR](evidence/ecs04_fir_vitis.txt), [exit status](evidence/ecs04_stage_status.txt).
-- Run 5 on ecs03 disabled the explicit DATA loop pipeline in a diagnostic copy. Python and C simulation each passed 34/34. Synthesis again reached the end of the synthesizability check and timed out before producing a synthesis report or starting RTL co-simulation. The timeout can therefore occur with the DATA pipeline disabled. [Python log](evidence/ecs03_no_data_pipeline_python.txt), [Vitis log](evidence/ecs03_no_data_pipeline_vitis.txt), [exit status](evidence/ecs03_no_data_pipeline_diagnostic_status.txt).
-- RTL input acceptance after an error remains unverified. Use a directed test that presents a sentinel immediately after each offending beat, counts handshakes through completion, and then verifies the restart with fresh input. An extra handshake violates the interface even if the error code matches. [Proposed verification requirement](prompt.md#independent-verification-and-test-scenarios).
-- The proposed prompt revision records the decisions exposed by Run 4 for student review. It has no corresponding execution run yet. [Revision history](prompt.md#revision-history).
+- Performance target failure is resolved as a documented result, not a passing claim: the current unpipelined design does not meet II <=2 or throughput >=0.5 samples/cycle. A faster correct architecture remains future work. [Synthesis](evidence/run8_csynth.rpt), [measurement](evidence/run8_timing_measurements.txt).
+- Version 3 of the prompt and its 64-command protocol change are proposed for student review. [Revision history](prompt.md#revision-history).
 
-## Run history
+## Run History
 
-| Run | Prompt version | What changed | Result |
+| Run | Prompt version | Action | Result |
 | --- | --- | --- | --- |
-| 1 | Draft v1 | Built Python golden model, HLS source, testbench and replay scripts | Python and host C++ 34/34. |
-| 2 | Draft v1 | NYU Vitis 2026.1 after fixing the transfer line endings and vector generation | C simulation 34/34. Synthesis stalled and its process was stopped. |
-| 3 | Draft v1 | Disable automatic loop pipelining, retain explicit DATA II=2 | C simulation 34/34. Synthesis stopped producing output at the same stage. |
-| 4 | Draft v1 | Run a minimal synthesis probe and rerun the FIR on ecs04 | Probe synthesis passed. FIR C simulation 34/34. FIR synthesis timed out with exit status 124. |
-| 5 | Draft v1 diagnostic | Disable the explicit DATA loop pipeline in an isolated copy on ecs03 | Python and C simulation 34/34. Synthesis timed out at the same stage with exit status 124. |
+| 1 | v1 | Model and host C++ | 34/34 passed. [Previous log](evidence/host_cpp.txt) |
+| 2–3 | v1 | Vitis C simulation and original unbounded synthesis, including disabled automatic pipelining | C simulation passed; synthesis did not complete. [Run](evidence/synthesis_no_auto_pipeline.txt) |
+| 4 | v1 | Minimal probe and FIR synthesis on ecs04 | Probe passed; FIR synthesis timed out (124). [Log](evidence/ecs04_fir_vitis.txt), [status](evidence/ecs04_stage_status.txt) |
+| 5 | v1 diagnostic | Disable DATA pipeline in isolated copy, keep unbounded loop | Synthesis timed out (124). [Log](evidence/ecs03_no_data_pipeline_vitis.txt), [status](evidence/ecs03_no_data_pipeline_diagnostic_status.txt) |
+| 6 | v2 diagnostic | Bound outer loop to 64 in diagnostic, retain DATA pipeline | Synthesis finished; RTL co-sim failed, 16/34 passing, with incorrect history-dependent outputs. Diagnostic bound silently truncates and is not the final protocol. [Log](evidence/run6_pipeline_cosim_fail.txt) |
+| 7 | v3 candidate | Explicit command-limit error and unpipelined DATA; default AXI input registration | Ordinary RTL co-sim passed 39/39, but all 16 directed sentinel cases accepted extra inputs. [Sentinel failure](evidence/run7_rtl_sentinel_fail.txt) |
+| 8 | v3 candidate | Disable AXI input registration and rerun full verification | Python, host C++, C-sim, and RTL 39/39; sentinel 16/16; original throughput target fails. [Vitis](evidence/run8_vitis.txt), [sentinel](evidence/run8_rtl_sentinel.txt), [timing](evidence/run8_timing_measurements.txt) |

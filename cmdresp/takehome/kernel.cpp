@@ -14,7 +14,8 @@ enum Error : uint32_t {
     BAD_COUNT = 3,
     UNCONFIGURED = 4,
     EARLY_TLAST = 5,
-    MISSING_TLAST = 6
+    MISSING_TLAST = 6,
+    COMMAND_LIMIT = 7
 };
 
 Error framing(bool last, bool final) {
@@ -58,7 +59,7 @@ uint16_t quantize(int64_t sum) {
 
 void fir4(hls::stream<AxisWord>& in_stream, hls::stream<AxisWord>& out_stream,
            uint32_t& halted, uint32_t& error, uint32_t& error_tx_id) {
-#pragma HLS INTERFACE axis port=in_stream
+#pragma HLS INTERFACE axis port=in_stream register_mode=off
 #pragma HLS INTERFACE axis port=out_stream
 #pragma HLS INTERFACE s_axilite port=halted bundle=control
 #pragma HLS INTERFACE s_axilite port=error bundle=control
@@ -72,7 +73,7 @@ void fir4(hls::stream<AxisWord>& in_stream, hls::stream<AxisWord>& out_stream,
     int16_t d1 = 0, d2 = 0, d3 = 0;
 #pragma HLS ARRAY_PARTITION variable=coefficients complete
 
-    while (true) {
+    for (unsigned command_index = 0; command_index < 65; ++command_index) {
         const AxisWord header = in_stream.read();
         const uint32_t bits = header.data;
         const uint32_t opcode = bits >> 24;
@@ -99,6 +100,10 @@ void fir4(hls::stream<AxisWord>& in_stream, hls::stream<AxisWord>& out_stream,
         if (opcode == END) {
             break;
         }
+        if (command_index == 64) {
+            code = COMMAND_LIMIT;
+            break;
+        }
 
         if (opcode == CONFIG) {
             for (unsigned i = 0; i < CONFIG_WORDS; ++i) {
@@ -123,7 +128,7 @@ void fir4(hls::stream<AxisWord>& in_stream, hls::stream<AxisWord>& out_stream,
         data_samples:
 #endif
             for (unsigned i = 0; i < count; ++i) {
-#pragma HLS PIPELINE II=2
+#pragma HLS PIPELINE off
 #pragma HLS LOOP_TRIPCOUNT min=1 max=4096
                 const AxisWord word = in_stream.read();
                 const bool final = i + 1 == count;

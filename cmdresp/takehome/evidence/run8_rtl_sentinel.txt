@@ -1,0 +1,34 @@
+
+****** xsim v2026.1 (64-bit)
+  **** SW Build 6511674 on Tue Jun 16 11:01:26 MDT 2026
+  **** IP Build 6504888 on Tue Jun 09 09:05:25 MDT 2026
+  **** SharedData Build 6501428 on Mon Jun 08 17:34:18 MDT 2026
+  **** Start of session at: Wed Nov  4 17:04:31 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source xsim.dir/sentinel_sim/xsim_script.tcl
+# xsim {sentinel_sim} -autoloadwcfg -runall
+Time resolution is 1 ps
+run -all
+SENTINEL PASS header_priority presented_cycles=1 accepted=0 status=(1,1,21)
+SENTINEL PASS unknown_opcode presented_cycles=1 accepted=0 status=(1,2,22)
+SENTINEL PASS zero_data presented_cycles=1 accepted=0 status=(1,3,23)
+SENTINEL PASS oversize_data presented_cycles=1 accepted=0 status=(1,3,24)
+SENTINEL PASS data_before_config presented_cycles=1 accepted=0 status=(1,4,25)
+SENTINEL PASS end_before_config presented_cycles=1 accepted=0 status=(1,4,26)
+SENTINEL PASS action_before_config presented_cycles=1 accepted=0 status=(1,4,27)
+SENTINEL PASS bad_action_count presented_cycles=1 accepted=0 status=(1,3,28)
+SENTINEL PASS bad_end_count presented_cycles=1 accepted=0 status=(1,3,29)
+SENTINEL PASS bad_config_count presented_cycles=1 accepted=0 status=(1,3,30)
+SENTINEL PASS command_limit presented_cycles=1 accepted=0 status=(1,7,42)
+SENTINEL PASS command_limit_header_priority presented_cycles=1 accepted=0 status=(1,1,43)
+SENTINEL PASS config_early presented_cycles=1 accepted=0 status=(1,5,31)
+SENTINEL PASS config_missing presented_cycles=1 accepted=0 status=(1,6,32)
+SENTINEL PASS data_early presented_cycles=8 accepted=0 status=(1,5,35)
+SENTINEL PASS data_missing presented_cycles=8 accepted=0 status=(1,6,36)
+SENTINEL SUMMARY cases=16 failed=0
+$finish called at time : 11550 ns : File "<EDA-workdir>" Line 90
+exit
+INFO: xsimkernel Simulation Memory Usage: 158128 KB (Peak: 223664 KB), Simulation CPU Usage: 1900 ms
+INFO: [Common 17-206] Exiting xsim at Wed Nov  4 17:04:36 2026...
