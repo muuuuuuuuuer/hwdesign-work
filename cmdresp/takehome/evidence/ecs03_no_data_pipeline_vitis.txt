@@ -1,0 +1,111 @@
+****** vitis-run v2026.1 (64-bit)
+  **** SW Build 6497934 on 2026-06-16-10:22:25
+  **** Start of session at: Wed Nov  4 16:12:27 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
+
+  **** HLS Build v2026.1 6493734
+Sourcing Tcl script '<EDA-workdir>/run.tcl'
+INFO: [HLS 200-1510] Running: open_project -reset prj_lab5
+WARNING: [HLS 200-2182] The 'prj_lab5' project will not automatically appear within Vitis IDE workspaces and is meant only for TCL batch use.  Please use open_component instead of open_project/open_solution to generate Vitis IDE compatible component files and directory structure.
+Resolution: For help on HLS 200-2182 see docs.amd.com/access/sources/dita/topic?Doc_Version=2026.1%20English&url=ug1448-hls-guidance&resourceid=200-2182.html
+INFO: [HLS 200-10] Creating and opening solution '<EDA-workdir>/prj_lab5'.
+INFO: [HLS 200-1510] Running: set_top fir4
+INFO: [HLS 200-1510] Running: add_files kernel.cpp
+INFO: [HLS 200-10] Adding design file 'kernel.cpp' to the project
+INFO: [HLS 200-1510] Running: add_files -tb tb.cpp
+INFO: [HLS 200-10] Adding test bench file 'tb.cpp' to the project
+INFO: [HLS 200-1510] Running: add_files -tb prj_vectors/vectors.txt
+INFO: [HLS 200-10] Adding test bench file 'prj_vectors/vectors.txt' to the project
+INFO: [HLS 200-1510] Running: add_files -tb prj_vectors/timing_vectors.txt
+INFO: [HLS 200-10] Adding test bench file 'prj_vectors/timing_vectors.txt' to the project
+INFO: [HLS 200-1510] Running: open_solution -reset solution1 -flow_target vivado
+INFO: [HLS 200-10] Creating and opening solution '<EDA-workdir>/prj_lab5/solution1'.
+INFO: [HLS 200-10] Cleaning up the solution database.
+INFO: [HLS 200-1505] Using flow_target 'vivado'
+Resolution: For help on HLS 200-1505 see docs.amd.com/access/sources/dita/topic?Doc_Version=2026.1%20English&url=ug1448-hls-guidance&resourceid=200-1505.html
+WARNING: [HLS 200-2149] The 'flow_target' option is deprecated and will be removed in a future release. For 'vivado' value you may simply remove the option for equivalent behavior.
+WARNING: [HLS 200-484] The 'open_solution -flow_target' command is deprecated and will be removed in a future release.
+INFO: [HLS 200-1510] Running: set_part xc7z020clg400-1
+INFO: [HLS 200-1611] Setting target device to 'xc7z020-clg400-1'
+INFO: [HLS 200-1510] Running: create_clock -period 10 -name default
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
+INFO: [HLS 200-1510] Running: config_compile -pipeline_loops 0
+INFO: [HLS 200-1510] Running: csim_design -argv "<EDA-workdir>/prj_vectors/vectors.txt"
+INFO: [SIM 211-2] *************** CSIM start ***************
+INFO: [HLS 200-2191] C-Simulation will use clang-16 as the compiler
+INFO: [HLS 200-2036] Building debug C Simulation binaries
+   Compiling ../../../../tb.cpp in debug mode
+   Compiling ../../../../kernel.cpp in debug mode
+   Generating csim.exe
+KERNEL PASS hand_split_reset_reconfigure: status=(0,0,0); expected_output_beats=14; queued_input_checked=0
+KERNEL PASS hand_floor_and_upper_bits: status=(0,0,0); expected_output_beats=5; queued_input_checked=0
+KERNEL PASS hand_full_accumulator_and_saturation: status=(0,0,0); expected_output_beats=9; queued_input_checked=0
+KERNEL PASS activation_state_reset: status=(0,0,0); expected_output_beats=2; queued_input_checked=0
+KERNEL PASS seeded_multicommand: status=(0,0,0); expected_output_beats=514; queued_input_checked=0
+KERNEL PASS timing_4096: status=(0,0,0); expected_output_beats=4097; queued_input_checked=0
+KERNEL PASS header_priority: status=(1,1,21); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS header_priority_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS unknown_opcode: status=(1,2,22); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS unknown_opcode_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS zero_data: status=(1,3,23); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS zero_data_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS oversize_data: status=(1,3,24); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS oversize_data_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS data_before_config: status=(1,4,25); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS data_before_config_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS end_before_config: status=(1,4,26); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS end_before_config_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS action_before_config: status=(1,4,27); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS action_before_config_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS bad_action_count: status=(1,3,28); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS bad_action_count_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS bad_end_count: status=(1,3,29); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS bad_end_count_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS bad_config_count: status=(1,3,30); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS bad_config_count_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS config_early: status=(1,5,31); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS config_early_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS config_missing: status=(1,6,32); expected_output_beats=0; queued_input_checked=1
+KERNEL PASS config_missing_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS data_early: status=(1,5,35); expected_output_beats=5; queued_input_checked=1
+KERNEL PASS data_early_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+KERNEL PASS data_missing: status=(1,6,36); expected_output_beats=2; queued_input_checked=1
+KERNEL PASS data_missing_restart: status=(0,0,0); expected_output_beats=3; queued_input_checked=0
+34/34 scenarios passed
+INFO [HLS SIM]: The maximum depth reached by any hls::stream() instance in the design is 4103
+INFO: [SIM 211-1] CSim done with 0 errors.
+INFO: [SIM 211-3] *************** CSIM finish ***************
+INFO: [HLS 200-2161] Finished Command csim_design Elapsed time: 00:00:04; Allocated memory: 1.000 MB.
+INFO: [HLS 200-1510] Running: csynth_design
+INFO: [HLS 200-111] Finished File checks and directory preparation: CPU user time: 0.98 seconds. CPU system time: 0.14 seconds. Elapsed time: 1.16 seconds; current allocated memory: 287.500 MB.
+INFO: [HLS 200-2191] C-Synthesis will use clang-16 as the compiler
+INFO: [HLS 200-10] Analyzing design file 'kernel.cpp' ...
+INFO: [HLS 200-111] Finished Source Code Analysis and Preprocessing: CPU user time: 6.24 seconds. CPU system time: 0.82 seconds. Elapsed time: 7.46 seconds; current allocated memory: 290.148 MB.
+INFO: [HLS 200-1995] There were 1,449 instructions in the design after the 'Compile/Link' phase of compilation. See the Design Size Report for more details (<EDA-workdir>/prj_lab5/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 214-131] Inlining function '(anonymous namespace)::send(hls::stream<hls::axis<ap_uint<32>, 0ul, 0ul, 0ul, (unsigned char)56, false>, 0>&, unsigned int, bool)' into 'fir4(hls::stream<hls::axis<ap_uint<32>, 0ul, 0ul, 0ul, (unsigned char)56, false>, 0>&, hls::stream<hls::axis<ap_uint<32>, 0ul, 0ul, 0ul, (unsigned char)56, false>, 0>&, unsigned int&, unsigned int&, unsigned int&)' (kernel.cpp:141:17)
+INFO: [HLS 214-131] Inlining function '(anonymous namespace)::quantize(long)' into 'fir4(hls::stream<hls::axis<ap_uint<32>, 0ul, 0ul, 0ul, (unsigned char)56, false>, 0>&, hls::stream<hls::axis<ap_uint<32>, 0ul, 0ul, 0ul, (unsigned char)56, false>, 0>&, unsigned int&, unsigned int&, unsigned int&)' (kernel.cpp:137:41)
+INFO: [HLS 214-131] Inlining function '(anonymous namespace)::signed_sample(unsigned int)' into 'fir4(hls::stream<hls::axis<ap_uint<32>, 0ul, 0ul, 0ul, (unsigned char)56, false>, 0>&, hls::stream<hls::axis<ap_uint<32>, 0ul, 0ul, 0ul, (unsigned char)56, false>, 0>&, unsigned int&, unsigned int&, unsigned int&)' (kernel.cpp:131:40)
+INFO: [HLS 214-131] Inlining function '(anonymous namespace)::framing(bool, bool)' into 'fir4(hls::stream<hls::axis<ap_uint<32>, 0ul, 0ul, 0ul, (unsigned char)56, false>, 0>&, hls::stream<hls::axis<ap_uint<32>, 0ul, 0ul, 0ul, (unsigned char)56, false>, 0>&, unsigned int&, unsigned int&, unsigned int&)' (kernel.cpp:130:24)
+INFO: [HLS 200-1995] There were 607 instructions in the design after the 'Unroll/Inline' phase of compilation. See the Design Size Report for more details (<EDA-workdir>/prj_lab5/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 443 instructions in the design after the 'Unroll/Inline (step 2)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>/prj_lab5/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 430 instructions in the design after the 'Unroll/Inline (step 3)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>/prj_lab5/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 319 instructions in the design after the 'Unroll/Inline (step 4)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>/prj_lab5/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 214-248] Applying array_partition to 'coefficients': Complete partitioning on dimension 1. (kernel.cpp:71:13)
+INFO: [HLS 200-1995] There were 327 instructions in the design after the 'Array/Struct' phase of compilation. See the Design Size Report for more details (<EDA-workdir>/prj_lab5/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 331 instructions in the design after the 'Array/Struct (step 2)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>/prj_lab5/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 331 instructions in the design after the 'Array/Struct (step 3)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>/prj_lab5/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 330 instructions in the design after the 'Array/Struct (step 4)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>/prj_lab5/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 517 instructions in the design after the 'Array/Struct (step 5)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>/prj_lab5/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 511 instructions in the design after the 'Performance' phase of compilation. See the Design Size Report for more details (<EDA-workdir>/prj_lab5/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 437 instructions in the design after the 'Performance (step 2)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>/prj_lab5/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 348 instructions in the design after the 'Performance (step 3)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>/prj_lab5/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 348 instructions in the design after the 'Performance (step 4)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>/prj_lab5/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 302 instructions in the design after the 'HW Transforms' phase of compilation. See the Design Size Report for more details (<EDA-workdir>/prj_lab5/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 232 instructions in the design after the 'HW Transforms (step 2)' phase of compilation. See the Design Size Report for more details (<EDA-workdir>/prj_lab5/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-111] Finished Compiling Optimization and Transform: CPU user time: 3.07 seconds. CPU system time: 0.56 seconds. Elapsed time: 8.16 seconds; current allocated memory: 300.129 MB.
+INFO: [HLS 200-111] Finished Checking Pragmas: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0 seconds; current allocated memory: 300.129 MB.
+INFO: [HLS 200-10] Starting code transformations ...
+INFO: [HLS 200-111] Finished Standard Transforms: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.03 seconds; current allocated memory: 300.973 MB.
+INFO: [HLS 200-10] Checking synthesizability ...
+INFO: [HLS 200-111] Finished Checking Synthesizability: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 301.168 MB.

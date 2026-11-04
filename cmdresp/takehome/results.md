@@ -23,20 +23,22 @@ CONFIG installs all four taps and clears the three history registers. RESET_HIST
 
 | Criterion | Required | Measured or declared | Result | Evidence |
 | --- | --- | --- | --- | --- |
-| FPGA part | xc7z020clg400-1 | xc7z020clg400-1 declared | Configured, build pending | [run.tcl](run.tcl) |
-| Clock constraint | 10 ns | 10 ns declared | Configured, build pending | [run.tcl](run.tcl) |
+| FPGA part | xc7z020clg400-1 | xc7z020clg400-1 configured | PASS (configuration) | [run.tcl](run.tcl), [FIR run](evidence/ecs04_fir_vitis.txt) |
+| Clock constraint | 10 ns | 10 ns configured | PASS (configuration) | [run.tcl](run.tcl), [FIR run](evidence/ecs04_fir_vitis.txt) |
 | Stream width | 32 bits per direction | 32 bits in source | PASS at source level | [kernel.hpp](kernel.hpp) |
-| C synthesis completion | Finish and generate the FIR synthesis report | 300 s run limit reached | FAIL (timeout) | [ecs04 FIR log](evidence/ecs04_fir_vitis.txt), [exit status](evidence/ecs04_stage_status.txt) |
-| Estimated clock period | <=10 ns | Pending | Unverified | Synthesis report required |
-| DATA loop achieved II | <=2 cycles | Pending | Unverified | Synthesis report required |
-| DATA throughput | >=0.5 samples/cycle | Pending | Unverified | 4096-beat RTL timing trace required |
-| First-output and DATA command latency | Report cycles | Pending | Unverified | RTL timing trace required |
-| Timing activation latency | Report cycles | Pending | Unverified | Dedicated RTL co-sim report required |
-| LUT / FF / DSP / BRAM | Report counts | Pending | Unverified | Synthesis report required |
+| C synthesis completion | Finish and generate the FIR synthesis report | Timed out (exit 124) | FAIL (timeout) | [Baseline FIR run](evidence/ecs04_fir_vitis.txt), [baseline exit status](evidence/ecs04_stage_status.txt), [diagnostic log](evidence/ecs03_no_data_pipeline_vitis.txt), [diagnostic exit status](evidence/ecs03_no_data_pipeline_diagnostic_status.txt) |
+| Estimated clock period | <=10 ns | No estimate produced | Unverified | [FIR run](evidence/ecs04_fir_vitis.txt), [exit status](evidence/ecs04_stage_status.txt) |
+| DATA loop achieved II | <=2 cycles | No schedule produced | Unverified | [FIR run](evidence/ecs04_fir_vitis.txt), [exit status](evidence/ecs04_stage_status.txt) |
+| DATA throughput | >=0.5 samples/cycle | RTL co-simulation blocked by synthesis | Unverified | [FIR run](evidence/ecs04_fir_vitis.txt), [exit status](evidence/ecs04_stage_status.txt) |
+| First-output and DATA command latency | Report cycles | RTL co-simulation blocked by synthesis | Unverified | [FIR run](evidence/ecs04_fir_vitis.txt), [exit status](evidence/ecs04_stage_status.txt) |
+| Timing activation latency | Report cycles | RTL co-simulation blocked by synthesis | Unverified | [FIR run](evidence/ecs04_fir_vitis.txt), [exit status](evidence/ecs04_stage_status.txt) |
+| LUT / FF / DSP / BRAM | Report counts | No resource report produced | Unverified | [FIR run](evidence/ecs04_fir_vitis.txt), [exit status](evidence/ecs04_stage_status.txt) |
 
 ## Verification
 
 Status tuples show (halted, error, tx_id). `_restart` rows run immediately after the named failure with fresh streams. The Python column includes the independent literals in [scenarios.py](scenarios.py). The seeded randomized case checks agreement between the two implementations. The C++ testbench compares TDATA, TLAST, TKEEP, TSTRB and status for every row. On failure it also checks that a queued sentinel is untouched. The RTL column is pending because FIR synthesis timed out. [Python log](evidence/python.txt), [host C++ log](evidence/host_cpp.txt), [Vitis C simulation log](evidence/vitis_csim.txt), [ecs04 rerun](evidence/ecs04_fir_vitis.txt).
+
+RTL error read-ahead is a separate unverified check. The existing `--rtl` path does not append the sentinel. A passing run of that harness would confirm output and status for the supplied vectors, while the no-extra-handshake requirement would still need a directed RTL input trace. [Testbench](tb.cpp), [FIR run](evidence/ecs04_fir_vitis.txt).
 
 | Scenario | Expected status | Output beats | Python | Host C++ | Vitis C sim | RTL co-sim |
 | --- | --- | ---: | --- | --- | --- | --- |
@@ -79,13 +81,15 @@ Status tuples show (halted, error, tx_id). `_restart` rows run immediately after
 
 - The prompt defines the output, error precedence and reset semantics. A 64-bit accumulator, bias-assisted floor conversion and paired additions are implementation choices.
 - Generated stimulus uses seed 6463. The 4096-beat timing fixture is an identity filter with an independently predictable result. The hardware still has four programmable taps.
-- The RTL transactor test ends each error stimulus on its offending beat. The C++ test also queues and checks one extra word. RTL read-ahead behavior with queued trailing traffic remains unverified.
+- The existing RTL transactor supplies input through the offending beat. The host C++ and Vitis C simulations also queue a sentinel and check that it remains unread. [Testbench](tb.cpp).
 - Read the AXI-Lite outputs once the current activation completes. The reported logical reset concerns the new invocation's state.
 
 ## Open items
 
 - On ecs03, synthesis stopped making visible progress immediately after the synthesizability check, both with default settings and with automatic loop pipelining disabled. On ecs04, Vitis 2026.1 synthesized the minimal increment probe on the same part at the same 10 ns constraint. FIR C simulation passed 34/34 again, and FIR synthesis timed out at the same stage. The probe confirms the tool can synthesize a minimal design on ecs04. The cause of the FIR stall remains undetermined. The FIR run did not reach RTL co-simulation, so achieved II, clock estimate, resources, latency and throughput remain unverified. The log copies omit the EDA account path. [ecs03 default](evidence/synthesis_default.txt), [ecs03 without automatic pipelining](evidence/synthesis_no_auto_pipeline.txt), [ecs04 probe](evidence/ecs04_probe.txt), [ecs04 FIR](evidence/ecs04_fir_vitis.txt), [exit status](evidence/ecs04_stage_status.txt).
-- The student must review the specification, obtain grader feedback and write any revisions. This draft has only the initial version.
+- Run 5 on ecs03 disabled the explicit DATA loop pipeline in a diagnostic copy. Python and C simulation each passed 34/34. Synthesis again reached the end of the synthesizability check and timed out before producing a synthesis report or starting RTL co-simulation. The timeout can therefore occur with the DATA pipeline disabled. [Python log](evidence/ecs03_no_data_pipeline_python.txt), [Vitis log](evidence/ecs03_no_data_pipeline_vitis.txt), [exit status](evidence/ecs03_no_data_pipeline_diagnostic_status.txt).
+- RTL input acceptance after an error remains unverified. Use a directed test that presents a sentinel immediately after each offending beat, counts handshakes through completion, and then verifies the restart with fresh input. An extra handshake violates the interface even if the error code matches. [Proposed verification requirement](prompt.md#independent-verification-and-test-scenarios).
+- The proposed prompt revision records the decisions exposed by Run 4 for student review. It has no corresponding execution run yet. [Revision history](prompt.md#revision-history).
 
 ## Run history
 
@@ -95,3 +99,4 @@ Status tuples show (halted, error, tx_id). `_restart` rows run immediately after
 | 2 | Draft v1 | NYU Vitis 2026.1 after fixing the transfer line endings and vector generation | C simulation 34/34. Synthesis stalled and its process was stopped. |
 | 3 | Draft v1 | Disable automatic loop pipelining, retain explicit DATA II=2 | C simulation 34/34. Synthesis stopped producing output at the same stage. |
 | 4 | Draft v1 | Run a minimal synthesis probe and rerun the FIR on ecs04 | Probe synthesis passed. FIR C simulation 34/34. FIR synthesis timed out with exit status 124. |
+| 5 | Draft v1 diagnostic | Disable the explicit DATA loop pipeline in an isolated copy on ecs03 | Python and C simulation 34/34. Synthesis timed out at the same stage with exit status 124. |
