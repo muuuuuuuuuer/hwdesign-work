@@ -85,14 +85,14 @@ Separately, the [directed RTL sentinel test](sentinel_tb.v) presents a stable se
 ## Assumptions
 
 - Configuration and history are activation-local; a host discards an affected DATA response and resets its stream path before restarting. The kernel does not implement a missing-input timeout. [Prompt](prompt.md).
-- At most 64 non-END commands are accepted per activation; this is a proposed change to the earlier unlimited draft and is explicitly enforced with error 7. [Kernel](kernel.cpp), [boundary tests](test_command_limit.py), [prompt revision](prompt.md#revision-history).
+- The final protocol accepts at most 64 non-END commands per activation; error 7 is enforced after a further valid non-END header. This changes the earlier unlimited draft, and the decision was confirmed after Run 8. [Kernel](kernel.cpp), [boundary tests](test_command_limit.py), [prompt revision](prompt.md#revision-history).
 - The 4096-sample timing fixture uses identity coefficients and seeded randomized tests use seed 6463; the hardware remains a programmable four-tap FIR. [Scenarios](scenarios.py).
 - The NYU machine lacked a host UBSan runtime, so the sanitizer host run was performed in local WSL; Vitis synthesis and co-simulation ran on ecs03. Account paths in copied logs were redacted as `<EDA-workdir>`.
 
 ## Open Items
 
 - Performance target failure is resolved as a documented result, not a passing claim: the current unpipelined design does not meet II <=2 or throughput >=0.5 samples/cycle. A faster correct architecture remains future work. [Synthesis](evidence/run8_csynth.rpt), [measurement](evidence/run8_timing_measurements.txt).
-- Version 3 of the prompt and its 64-command protocol change are proposed for student review. [Revision history](prompt.md#revision-history).
+- The 64-command protocol decision is closed in version 4. This documentation-only revision does not claim a new synthesis or RTL co-simulation run; the hardware evidence remains Run 8. [Revision history](prompt.md#revision-history), [Run 8](evidence/run8_vitis.txt).
 
 ## Run History
 
